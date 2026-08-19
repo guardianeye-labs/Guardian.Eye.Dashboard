@@ -76,3 +76,7 @@ assert.equal(dashboard.views[0].type, "panel");
 assert.equal(dashboard.views[0].cards[0].type, "custom:guardian-eye-dashboard-card");
 assert.ok(window.customStrategies.some((strategy) =>
   strategy.type === "guardian-eye" && strategy.strategyType === "dashboard"));
+
+const cameraCardSource = await import("node:fs/promises")
+  .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-camera-card.js", import.meta.url), "utf8"));
+assert.match(cameraCardSource, /--ha-select-height:\s*34px/);

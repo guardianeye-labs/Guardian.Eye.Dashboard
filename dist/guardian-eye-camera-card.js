@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.0";
+} from "./guardian-eye-localization.js?v=1.0.1";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -212,7 +212,10 @@ class GuardianEyeCameraCard extends HTMLElement {
         .card-content { padding: 4px 9px 7px !important; }
         #states > div { margin-block: -4px; }
         #states > div:has(> hui-buttons-row) { margin-block: -6px -4px; }
-        #states > div:has(> hui-select-entity-row) { max-width: 210px; }
+        #states > div:has(> hui-select-entity-row) {
+          --ha-select-height: 34px;
+          max-width: 180px;
+        }
       `;
       root.append(style);
     }
