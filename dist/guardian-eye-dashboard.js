@@ -1,16 +1,16 @@
-import "./guardian-eye-icons.js?v=1.0.2-rc3";
-import "./guardian-eye-camera-card.js?v=1.0.2-rc3";
-import "./guardian-eye-nvr-card.js?v=1.0.2-rc3";
+import "./guardian-eye-icons.js?v=1.0.2-rc4";
+import "./guardian-eye-camera-card.js?v=1.0.2-rc4";
+import "./guardian-eye-nvr-card.js?v=1.0.2-rc4";
 import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2-rc3";
+} from "./guardian-eye-localization.js?v=1.0.2-rc4";
 import {
   cameraConfig,
   guardianCameraDevices,
   nvrConfig,
-} from "./guardian-eye-dashboard-config.js?v=1.0.2-rc3";
+} from "./guardian-eye-dashboard-config.js?v=1.0.2-rc4";
 
 const DASHBOARD_CARD_TAG = "guardian-eye-dashboard-card";
 const DASHBOARD_STRATEGY_TAG = "ll-strategy-dashboard-guardian-eye";
@@ -71,6 +71,8 @@ class GuardianEyeDashboardCard extends HTMLElement {
           --primary-text-color: #e8eef6;
           --secondary-text-color: #9ca3af;
           --disabled-text-color: #5b6472;
+          --ha-color-form-background: #101a2e;
+          --ha-color-form-background-disabled: #111827;
           --divider-color: rgba(255, 255, 255, 0.1);
           --state-icon-color: #67d9e8;
           --state-icon-active-color: #00d4ff;

@@ -80,7 +80,14 @@ assert.ok(window.customStrategies.some((strategy) =>
 const cameraCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-camera-card.js", import.meta.url), "utf8"));
 assert.match(cameraCardSource, /--md-list-item-one-line-container-height:\s*36px/);
+assert.match(cameraCardSource, /ha-color-form-background-disabled/);
+assert.match(cameraCardSource, /md-list-item-label-text-color/);
 assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 2px 4px; \}/);
+
+const dashboardCardSource = await import("node:fs/promises")
+  .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-dashboard.js", import.meta.url), "utf8"));
+assert.match(dashboardCardSource, /--ha-color-form-background:\s*#101a2e/);
+assert.match(dashboardCardSource, /--ha-color-form-background-disabled:\s*#111827/);
 
 const nvrCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-nvr-card.js", import.meta.url), "utf8"));
