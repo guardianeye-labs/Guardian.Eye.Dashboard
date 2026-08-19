@@ -11,5 +11,11 @@ async function getIcon(name) {
   return icons[name] ?? icons.logo;
 }
 
+async function getIconList() {
+  return Object.keys(icons).map((name) => ({ name, keywords: [] }));
+}
+
 window.customIconsets = window.customIconsets || {};
 window.customIconsets[ICON_SET] = getIcon;
+window.customIcons = window.customIcons || {};
+window.customIcons[ICON_SET] = { getIcon, getIconList };

@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2";
+} from "./guardian-eye-localization.js?v=1.0.3";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -61,7 +61,12 @@ class GuardianEyeCameraCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host { min-inline-size: 260px; }
-        ha-card { overflow: hidden; }
+        ha-card {
+          border: 1px solid var(--guardian-eye-accent, #00d4ff);
+          border-radius: 12px;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
         h1 {
           box-sizing: border-box;
           font-size: var(--ha-font-size-xl);
