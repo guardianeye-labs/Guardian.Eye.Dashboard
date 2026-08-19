@@ -81,3 +81,7 @@ const cameraCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-camera-card.js", import.meta.url), "utf8"));
 assert.match(cameraCardSource, /--md-list-item-one-line-container-height:\s*36px/);
 assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 2px 4px; \}/);
+
+const nvrCardSource = await import("node:fs/promises")
+  .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-nvr-card.js", import.meta.url), "utf8"));
+assert.match(nvrCardSource, /\.gauges > \* \{ display: block; height: clamp\(150px, 14vw, 190px\); \}/);

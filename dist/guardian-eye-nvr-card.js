@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2";
+} from "./guardian-eye-localization.js?v=1.0.2-rc2";
 
 const CARD_TAG = "guardian-eye-nvr-card";
 const DEFAULT_ENTITIES = {
@@ -67,6 +67,7 @@ class GuardianEyeNvrCard extends HTMLElement {
         .metrics, .gauges { display: grid; gap: 8px; margin-bottom: 8px; }
         .metrics.primary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         .metrics.secondary, .gauges { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .gauges > * { display: block; height: clamp(150px, 14vw, 190px); }
         ha-card.metric { box-sizing: border-box; min-height: 70px; padding: 12px 16px; }
         .label { color: var(--secondary-text-color); font-size: 0.82rem; font-weight: 600; }
         .value { color: var(--primary-text-color); font-size: 1rem; margin-top: 5px; }
@@ -75,6 +76,7 @@ class GuardianEyeNvrCard extends HTMLElement {
         @media (max-width: 760px) {
           .metrics.primary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .metrics.secondary, .gauges { grid-template-columns: 1fr; }
+          .gauges > * { height: 160px; }
         }
       </style>
       <div class="metrics primary"></div>
