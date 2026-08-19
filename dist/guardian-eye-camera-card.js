@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.1";
+} from "./guardian-eye-localization.js?v=1.0.2";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -211,16 +211,17 @@ class GuardianEyeCameraCard extends HTMLElement {
       style.textContent = `
         .card-content { padding: 4px 9px 7px !important; }
         #states > div { margin-block: -4px; }
-        #states > div:has(> hui-buttons-row) { margin-block: -6px -4px; }
+        #states > div:has(> hui-buttons-row) { margin-block: 2px 4px; }
         #states > div:has(> hui-select-entity-row) {
-          --ha-select-height: 34px;
-          max-width: 180px;
+          margin-block: 0;
+          max-width: 160px;
         }
       `;
       root.append(style);
     }
 
     await this._compactButtonRows(root);
+    await this._compactSelectRows(root);
   }
 
   async _compactButtonRows(root) {
@@ -249,6 +250,33 @@ class GuardianEyeCameraCard extends HTMLElement {
         }
       `;
       buttonsRoot.append(style);
+    }
+  }
+
+  async _compactSelectRows(root) {
+    for (const row of root.querySelectorAll("hui-select-entity-row")) {
+      await row.updateComplete;
+      const rowRoot = row.shadowRoot;
+      const select = rowRoot?.querySelector("ha-select");
+      await select?.updateComplete;
+      const picker = select?.shadowRoot?.querySelector("ha-picker-field");
+      await picker?.updateComplete;
+      const pickerRoot = picker?.shadowRoot;
+      if (!pickerRoot || pickerRoot.querySelector("style[data-guardian-eye-select]")) {
+        continue;
+      }
+
+      const style = document.createElement("style");
+      style.dataset.guardianEyeSelect = "";
+      style.textContent = `
+        ha-combo-box-item {
+          --md-list-item-one-line-container-height: 36px !important;
+          --md-list-item-two-line-container-height: 36px !important;
+          --md-list-item-leading-space: 10px !important;
+          --md-list-item-trailing-space: 4px !important;
+        }
+      `;
+      pickerRoot.append(style);
     }
   }
 

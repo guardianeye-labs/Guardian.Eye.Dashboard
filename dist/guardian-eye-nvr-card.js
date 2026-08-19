@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.1";
+} from "./guardian-eye-localization.js?v=1.0.2";
 
 const CARD_TAG = "guardian-eye-nvr-card";
 const DEFAULT_ENTITIES = {
