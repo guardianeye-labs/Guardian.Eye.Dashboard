@@ -15,7 +15,35 @@ async function getIconList() {
   return Object.keys(icons).map((name) => ({ name, keywords: [] }));
 }
 
+function collectRenderedIcons(root, result) {
+  for (const element of root.querySelectorAll?.("*") ?? []) {
+    if (element.localName === "ha-icon" && element.icon?.startsWith(`${ICON_SET}:`)) {
+      result.push(element);
+    }
+    if (element.shadowRoot) {
+      collectRenderedIcons(element.shadowRoot, result);
+    }
+  }
+}
+
+export async function refreshGuardianEyeIcons(root = document) {
+  const renderedIcons = [];
+  collectRenderedIcons(root, renderedIcons);
+  for (const icon of renderedIcons) {
+    const requestedIcon = icon.icon;
+    // Current HA marks an unknown late-registered prefix as legacy. Resolving one
+    // built-in icon clears that flag before the Guardian Eye icon is requested again.
+    icon.icon = "mdi:cctv";
+    await icon.updateComplete;
+    icon.icon = requestedIcon;
+  }
+}
+
 window.customIconsets = window.customIconsets || {};
 window.customIconsets[ICON_SET] = getIcon;
 window.customIcons = window.customIcons || {};
 window.customIcons[ICON_SET] = { getIcon, getIconList };
+
+if (typeof document !== "undefined" && typeof requestAnimationFrame === "function") {
+  requestAnimationFrame(() => void refreshGuardianEyeIcons());
+}

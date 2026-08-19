@@ -1,1 +1,1 @@
-export * from "./guardian-eye-dashboard.js?v=1.0.3";
+export * from "./guardian-eye-dashboard.js?v=1.0.5";

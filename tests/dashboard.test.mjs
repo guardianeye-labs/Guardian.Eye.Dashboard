@@ -84,7 +84,8 @@ assert.match(cameraCardSource, /ha-color-form-background-disabled/);
 assert.match(cameraCardSource, /md-list-item-label-text-color/);
 assert.match(cameraCardSource, /ha-dropdown-item\[selected\]/);
 assert.match(cameraCardSource, /background-color:\s*#101a2e !important/);
-assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 2px 4px; \}/);
+assert.match(cameraCardSource, /\.card-content \{ padding: 6px 9px 10px !important; \}/);
+assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 3px 7px; \}/);
 assert.match(cameraCardSource, /border:\s*1px solid var\(--guardian-eye-accent, #00d4ff\)/);
 
 const iconSource = await import("node:fs/promises")
@@ -101,6 +102,22 @@ assert.deepEqual(
   await window.customIcons["guardian-eye"].getIconList(),
   [{ name: "logo", keywords: [] }],
 );
+
+const { refreshGuardianEyeIcons } = await import("../dist/guardian-eye-icons.js");
+const assignments = [];
+const renderedIcon = {
+  localName: "ha-icon",
+  get icon() { return this._icon; },
+  set icon(value) { this._icon = value; assignments.push(value); },
+  _icon: "guardian-eye:logo",
+  updateComplete: Promise.resolve(),
+};
+const nestedRoot = { querySelectorAll: () => [renderedIcon] };
+const documentRoot = {
+  querySelectorAll: () => [{ localName: "ha-sidebar", shadowRoot: nestedRoot }],
+};
+await refreshGuardianEyeIcons(documentRoot);
+assert.deepEqual(assignments, ["mdi:cctv", "guardian-eye:logo"]);
 
 const dashboardCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-dashboard.js", import.meta.url), "utf8"));
