@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "Конвейер событий",
+  "HAStorageUsed": "Занято хранилище",
+  "HAMemory": "Память",
+  "HAMemoryLimit": "Лимит памяти",
+  "HAAiInference": "AI-инференс",
+  "HACamerasOnline": "Камеры онлайн",
+  "HAActiveRecordings": "Активные записи",
+  "HAPendingEvents": "Ожидают доставки",
+  "HADeliveryRetries": "Повторы доставки",
+  "HAPower": "Питание",
+  "HAStatusReady": "Готов",
+  "HAStatusDegraded": "С ограничениями",
+  "HAStatusFailed": "Ошибка",
+  "Cameras": "Камеры",
+  "NoCameras": "Нет камер",
+  "Recording": "Запись",
+  "TimelineMotion": "Движение",
+  "TimelineAI": "ИИ детекция",
+  "ScannerTabHlsStream": "Трансляция"
+}

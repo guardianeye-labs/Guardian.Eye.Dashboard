@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "イベントパイプライン",
+  "HAStorageUsed": "ストレージ使用率",
+  "HAMemory": "メモリ",
+  "HAMemoryLimit": "メモリ上限",
+  "HAAiInference": "AI 推論",
+  "HACamerasOnline": "オンラインカメラ",
+  "HAActiveRecordings": "録画中",
+  "HAPendingEvents": "配信待ち",
+  "HADeliveryRetries": "配信再試行",
+  "HAPower": "電源",
+  "HAStatusReady": "準備完了",
+  "HAStatusDegraded": "機能低下",
+  "HAStatusFailed": "失敗",
+  "Cameras": "カメラ",
+  "NoCameras": "カメラなし",
+  "Recording": "録画",
+  "TimelineAI": "AI検出",
+  "TimelineMotion": "動体",
+  "ScannerTabHlsStream": "ストリーム"
+}

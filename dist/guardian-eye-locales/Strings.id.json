@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "Pipeline peristiwa",
+  "HAStorageUsed": "Penyimpanan terpakai",
+  "HAMemory": "Memori",
+  "HAMemoryLimit": "Batas memori",
+  "HAAiInference": "Inferensi AI",
+  "HACamerasOnline": "Kamera online",
+  "HAActiveRecordings": "Perekaman aktif",
+  "HAPendingEvents": "Pengiriman tertunda",
+  "HADeliveryRetries": "Percobaan ulang pengiriman",
+  "HAPower": "Daya",
+  "HAStatusReady": "Siap",
+  "HAStatusDegraded": "Terdegradasi",
+  "HAStatusFailed": "Gagal",
+  "Cameras": "Kamera",
+  "NoCameras": "Tidak ada kamera",
+  "Recording": "Rekaman",
+  "TimelineAI": "Deteksi AI",
+  "TimelineMotion": "Gerakan",
+  "ScannerTabHlsStream": "Aliran"
+}

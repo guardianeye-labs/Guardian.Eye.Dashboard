@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "Olay işlem hattı",
+  "HAStorageUsed": "Kullanılan depolama",
+  "HAMemory": "Bellek",
+  "HAMemoryLimit": "Bellek sınırı",
+  "HAAiInference": "AI çıkarımı",
+  "HACamerasOnline": "Çevrimiçi kameralar",
+  "HAActiveRecordings": "Etkin kayıtlar",
+  "HAPendingEvents": "Bekleyen teslimatlar",
+  "HADeliveryRetries": "Teslimat yeniden denemeleri",
+  "HAPower": "Güç",
+  "HAStatusReady": "Hazır",
+  "HAStatusDegraded": "Kısıtlı",
+  "HAStatusFailed": "Başarısız",
+  "Cameras": "Kameralar",
+  "NoCameras": "Kamera yok",
+  "Recording": "Kayıt",
+  "TimelineAI": "YZ algılama",
+  "TimelineMotion": "Hareket",
+  "ScannerTabHlsStream": "Akış"
+}

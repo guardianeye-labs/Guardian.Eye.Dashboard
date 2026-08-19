@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "이벤트 파이프라인",
+  "HAStorageUsed": "저장 공간 사용량",
+  "HAMemory": "메모리",
+  "HAMemoryLimit": "메모리 한도",
+  "HAAiInference": "AI 추론",
+  "HACamerasOnline": "온라인 카메라",
+  "HAActiveRecordings": "활성 녹화",
+  "HAPendingEvents": "전달 대기",
+  "HADeliveryRetries": "전달 재시도",
+  "HAPower": "전원",
+  "HAStatusReady": "준비됨",
+  "HAStatusDegraded": "성능 저하",
+  "HAStatusFailed": "실패",
+  "Cameras": "카메라",
+  "NoCameras": "카메라 없음",
+  "Recording": "녹화",
+  "TimelineAI": "AI 감지",
+  "TimelineMotion": "동작",
+  "ScannerTabHlsStream": "스트림"
+}

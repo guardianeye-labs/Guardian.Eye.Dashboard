@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "इवेंट पाइपलाइन",
+  "HAStorageUsed": "उपयोग किया गया संग्रहण",
+  "HAMemory": "मेमोरी",
+  "HAMemoryLimit": "मेमोरी सीमा",
+  "HAAiInference": "AI अनुमान",
+  "HACamerasOnline": "ऑनलाइन कैमरे",
+  "HAActiveRecordings": "सक्रिय रिकॉर्डिंग",
+  "HAPendingEvents": "लंबित डिलीवरी",
+  "HADeliveryRetries": "डिलीवरी पुनः प्रयास",
+  "HAPower": "पावर",
+  "HAStatusReady": "तैयार",
+  "HAStatusDegraded": "सीमित",
+  "HAStatusFailed": "विफल",
+  "Cameras": "कैमरे",
+  "NoCameras": "कोई कैमरा नहीं",
+  "Recording": "रिकॉर्डिंग",
+  "TimelineAI": "AI डिटेक्शन",
+  "TimelineMotion": "गति",
+  "ScannerTabHlsStream": "स्ट्रीम"
+}

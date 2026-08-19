@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "ไปป์ไลน์เหตุการณ์",
+  "HAStorageUsed": "พื้นที่เก็บข้อมูลที่ใช้",
+  "HAMemory": "หน่วยความจำ",
+  "HAMemoryLimit": "ขีดจำกัดหน่วยความจำ",
+  "HAAiInference": "การอนุมาน AI",
+  "HACamerasOnline": "กล้องออนไลน์",
+  "HAActiveRecordings": "การบันทึกที่ทำงานอยู่",
+  "HAPendingEvents": "รอการส่ง",
+  "HADeliveryRetries": "ลองส่งใหม่",
+  "HAPower": "พลังงาน",
+  "HAStatusReady": "พร้อม",
+  "HAStatusDegraded": "ประสิทธิภาพลดลง",
+  "HAStatusFailed": "ล้มเหลว",
+  "Cameras": "กล้อง",
+  "NoCameras": "ไม่มีกล้อง",
+  "Recording": "การบันทึก",
+  "TimelineAI": "การตรวจจับ AI",
+  "TimelineMotion": "การเคลื่อนไหว",
+  "ScannerTabHlsStream": "สตรีม"
+}

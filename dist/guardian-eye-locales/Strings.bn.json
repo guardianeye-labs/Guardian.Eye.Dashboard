@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "ইভেন্ট পাইপলাইন",
+  "HAStorageUsed": "ব্যবহৃত স্টোরেজ",
+  "HAMemory": "মেমরি",
+  "HAMemoryLimit": "মেমরি সীমা",
+  "HAAiInference": "AI ইনফারেন্স",
+  "HACamerasOnline": "অনলাইন ক্যামেরা",
+  "HAActiveRecordings": "সক্রিয় রেকর্ডিং",
+  "HAPendingEvents": "অপেক্ষমাণ ডেলিভারি",
+  "HADeliveryRetries": "ডেলিভারি পুনঃচেষ্টা",
+  "HAPower": "পাওয়ার",
+  "HAStatusReady": "প্রস্তুত",
+  "HAStatusDegraded": "সীমিত",
+  "HAStatusFailed": "ব্যর্থ",
+  "Cameras": "ক্যামেরাগুলো",
+  "NoCameras": "কোনো ক্যামেরা নেই",
+  "Recording": "রেকর্ডিং",
+  "TimelineAI": "AI সনাক্তকরণ",
+  "TimelineMotion": "গতি",
+  "ScannerTabHlsStream": "স্ট্রিম"
+}

@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "事件管道",
+  "HAStorageUsed": "存储使用率",
+  "HAMemory": "内存",
+  "HAMemoryLimit": "内存上限",
+  "HAAiInference": "AI 推理",
+  "HACamerasOnline": "在线摄像机",
+  "HAActiveRecordings": "正在录像",
+  "HAPendingEvents": "待投递",
+  "HADeliveryRetries": "投递重试",
+  "HAPower": "电源",
+  "HAStatusReady": "就绪",
+  "HAStatusDegraded": "性能下降",
+  "HAStatusFailed": "失败",
+  "Cameras": "摄像头",
+  "NoCameras": "无摄像头",
+  "Recording": "录像",
+  "TimelineMotion": "动态",
+  "TimelineAI": "AI检测",
+  "ScannerTabHlsStream": "流媒体"
+}

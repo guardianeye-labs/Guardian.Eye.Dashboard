@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "Luồng sự kiện",
+  "HAStorageUsed": "Bộ nhớ đã dùng",
+  "HAMemory": "Bộ nhớ",
+  "HAMemoryLimit": "Giới hạn bộ nhớ",
+  "HAAiInference": "Suy luận AI",
+  "HACamerasOnline": "Camera trực tuyến",
+  "HAActiveRecordings": "Bản ghi đang hoạt động",
+  "HAPendingEvents": "Đang chờ gửi",
+  "HADeliveryRetries": "Thử gửi lại",
+  "HAPower": "Nguồn",
+  "HAStatusReady": "Sẵn sàng",
+  "HAStatusDegraded": "Suy giảm",
+  "HAStatusFailed": "Thất bại",
+  "Cameras": "Camera",
+  "NoCameras": "Không có camera",
+  "Recording": "Ghi hình",
+  "TimelineAI": "Phát hiện AI",
+  "TimelineMotion": "Chuyển động",
+  "ScannerTabHlsStream": "Luồng phát"
+}

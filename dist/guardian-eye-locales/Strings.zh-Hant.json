@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "事件管線",
+  "HAStorageUsed": "儲存空間使用率",
+  "HAMemory": "記憶體",
+  "HAMemoryLimit": "記憶體上限",
+  "HAAiInference": "AI 推論",
+  "HACamerasOnline": "線上攝影機",
+  "HAActiveRecordings": "進行中的錄影",
+  "HAPendingEvents": "待傳送",
+  "HADeliveryRetries": "傳送重試",
+  "HAPower": "電源",
+  "HAStatusReady": "就緒",
+  "HAStatusDegraded": "效能降低",
+  "HAStatusFailed": "失敗",
+  "Cameras": "攝影機",
+  "NoCameras": "無攝影機",
+  "Recording": "錄影",
+  "TimelineAI": "AI偵測",
+  "TimelineMotion": "動作",
+  "ScannerTabHlsStream": "串流"
+}

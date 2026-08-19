@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "Pipeline de eventos",
+  "HAStorageUsed": "Armazenamento utilizado",
+  "HAMemory": "Memória",
+  "HAMemoryLimit": "Limite de memória",
+  "HAAiInference": "Inferência de IA",
+  "HACamerasOnline": "Câmaras online",
+  "HAActiveRecordings": "Gravações ativas",
+  "HAPendingEvents": "Entregas pendentes",
+  "HADeliveryRetries": "Novas tentativas de entrega",
+  "HAPower": "Alimentação",
+  "HAStatusReady": "Pronto",
+  "HAStatusDegraded": "Degradado",
+  "HAStatusFailed": "Falhou",
+  "Cameras": "Câmeras",
+  "NoCameras": "Sem câmeras",
+  "Recording": "Gravação",
+  "TimelineAI": "Deteção IA",
+  "TimelineMotion": "Movimento",
+  "ScannerTabHlsStream": "Transmissão"
+}

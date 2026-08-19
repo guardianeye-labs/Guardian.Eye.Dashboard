@@ -1,0 +1,21 @@
+{
+  "HAEventPipeline": "مسار الأحداث",
+  "HAStorageUsed": "مساحة التخزين المستخدمة",
+  "HAMemory": "الذاكرة",
+  "HAMemoryLimit": "حد الذاكرة",
+  "HAAiInference": "استدلال الذكاء الاصطناعي",
+  "HACamerasOnline": "الكاميرات المتصلة",
+  "HAActiveRecordings": "التسجيلات النشطة",
+  "HAPendingEvents": "عمليات التسليم المعلقة",
+  "HADeliveryRetries": "إعادات محاولة التسليم",
+  "HAPower": "الطاقة",
+  "HAStatusReady": "جاهز",
+  "HAStatusDegraded": "محدود",
+  "HAStatusFailed": "فشل",
+  "Cameras": "الكاميرات",
+  "NoCameras": "لا توجد كاميرات",
+  "Recording": "التسجيل",
+  "TimelineAI": "كشف الذكاء الاصطناعي",
+  "TimelineMotion": "الحركة",
+  "ScannerTabHlsStream": "البث"
+}
