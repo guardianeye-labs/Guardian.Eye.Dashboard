@@ -85,3 +85,5 @@ assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin
 const nvrCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-nvr-card.js", import.meta.url), "utf8"));
 assert.match(nvrCardSource, /\.gauges > \* \{ display: block; height: clamp\(150px, 14vw, 190px\); \}/);
+assert.match(nvrCardSource, /tap_action: \{ action: "more-info" \}/);
+assert.match(nvrCardSource, /new CustomEvent\("hass-more-info"/);

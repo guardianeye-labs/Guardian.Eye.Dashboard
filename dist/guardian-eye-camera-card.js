@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2-rc2";
+} from "./guardian-eye-localization.js?v=1.0.2-rc3";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [

@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2-rc2";
+} from "./guardian-eye-localization.js?v=1.0.2-rc3";
 
 const CARD_TAG = "guardian-eye-nvr-card";
 const DEFAULT_ENTITIES = {
@@ -69,6 +69,8 @@ class GuardianEyeNvrCard extends HTMLElement {
         .metrics.secondary, .gauges { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .gauges > * { display: block; height: clamp(150px, 14vw, 190px); }
         ha-card.metric { box-sizing: border-box; min-height: 70px; padding: 12px 16px; }
+        ha-card.metric.action { cursor: pointer; }
+        ha-card.metric.action:focus-visible { outline: 2px solid var(--primary-color); }
         .label { color: var(--secondary-text-color); font-size: 0.82rem; font-weight: 600; }
         .value { color: var(--primary-text-color); font-size: 1rem; margin-top: 5px; }
         ha-card.health { padding: 16px; }
@@ -99,15 +101,15 @@ class GuardianEyeNvrCard extends HTMLElement {
 
   _renderMetrics() {
     const primary = [
-      ["status", "HAEventPipeline", "Event Pipeline"],
-      ["cameras", "HACamerasOnline", "Cameras Online"],
-      ["recordings", "HAActiveRecordings", "Active Recordings"],
-      ["pending", "HAPendingEvents", "Pending Deliveries"],
+      ["status", "HAEventPipeline", "Event Pipeline", this._entities.status],
+      ["cameras", "HACamerasOnline", "Cameras Online", this._entities.cameras],
+      ["recordings", "HAActiveRecordings", "Active Recordings", this._entities.recordings],
+      ["pending", "HAPendingEvents", "Pending Deliveries", this._entities.pending],
     ];
     const secondary = [
-      ["memory", "HAMemory", "Memory"],
-      ["memoryLimit", "HAMemoryLimit", "Memory Limit"],
-      ["inference", "HAAiInference", "AI Inference"],
+      ["memory", "HAMemory", "Memory", this._entities.memory],
+      ["memoryLimit", "HAMemoryLimit", "Memory Limit", this._entities.memoryLimit],
+      ["inference", "HAAiInference", "AI Inference", this._entities.inference],
     ];
     this._renderMetricGroup(".metrics.primary", primary);
     this._renderMetricGroup(".metrics.secondary", secondary);
@@ -115,11 +117,20 @@ class GuardianEyeNvrCard extends HTMLElement {
 
   _renderMetricGroup(selector, definitions) {
     const container = this.shadowRoot.querySelector(selector);
-    container.replaceChildren(...definitions.map(([id, key, fallback]) => {
+    container.replaceChildren(...definitions.map(([id, key, fallback, entity]) => {
       const card = document.createElement("ha-card");
-      card.className = "metric";
+      card.className = "metric action";
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
       card.innerHTML = `<div class="label"></div><div class="value" data-value="${id}">—</div>`;
       card.querySelector(".label").textContent = this._t(key, fallback);
+      card.addEventListener("click", () => this._showMoreInfo(entity));
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          this._showMoreInfo(entity);
+        }
+      });
       return card;
     }));
   }
@@ -137,6 +148,7 @@ class GuardianEyeNvrCard extends HTMLElement {
       helpers.createCardElement({
         type: "gauge", entity, name, min: 0, max: 100, needle: true,
         severity: { green: 0, yellow, red },
+        tap_action: { action: "more-info" },
       })));
     if (renderVersion !== this._gaugeRenderVersion) {
       return;
@@ -206,6 +218,14 @@ class GuardianEyeNvrCard extends HTMLElement {
   }
 
   _state(entity) { return this._hass?.states?.[entity]; }
+  _showMoreInfo(entityId) {
+    if (!entityId) return;
+    this.dispatchEvent(new CustomEvent("hass-more-info", {
+      bubbles: true,
+      composed: true,
+      detail: { entityId },
+    }));
+  }
   _stateValue(entity, suffix = "", fallback = "—") {
     const state = this._state(entity)?.state;
     return !state || state === "unknown" || state === "unavailable" ? fallback : `${state}${suffix}`;
