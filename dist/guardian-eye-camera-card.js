@@ -2,7 +2,7 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2-rc4";
+} from "./guardian-eye-localization.js?v=1.0.2-rc5";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -259,6 +259,38 @@ class GuardianEyeCameraCard extends HTMLElement {
       const rowRoot = row.shadowRoot;
       const select = rowRoot?.querySelector("ha-select");
       await select?.updateComplete;
+      select?.style.setProperty("--ha-color-form-background", "#101a2e");
+      select?.style.setProperty("--ha-color-form-background-disabled", "#111827");
+      select?.style.setProperty(
+        "--ha-color-fill-primary-quiet-resting",
+        "rgba(0, 212, 255, 0.16)",
+      );
+      select?.style.setProperty(
+        "--ha-color-fill-primary-quiet-hover",
+        "rgba(0, 212, 255, 0.24)",
+      );
+      select?.style.setProperty("--primary-text-color", "#e8eef6");
+      select?.style.setProperty("--secondary-text-color", "#9ca3af");
+
+      const selectRoot = select?.shadowRoot;
+      if (selectRoot && !selectRoot.querySelector("style[data-guardian-eye-select-menu]")) {
+        const menuStyle = document.createElement("style");
+        menuStyle.dataset.guardianEyeSelectMenu = "";
+        menuStyle.textContent = `
+          ha-dropdown-item {
+            color: #e8eef6 !important;
+          }
+          ha-dropdown-item[selected] {
+            background-color: rgba(0, 212, 255, 0.16) !important;
+            color: #67e8f9 !important;
+          }
+          ha-dropdown-item[selected]:hover {
+            background-color: rgba(0, 212, 255, 0.24) !important;
+          }
+        `;
+        selectRoot.append(menuStyle);
+      }
+
       const picker = select?.shadowRoot?.querySelector("ha-picker-field");
       await picker?.updateComplete;
       const pickerRoot = picker?.shadowRoot;
@@ -270,7 +302,7 @@ class GuardianEyeCameraCard extends HTMLElement {
       style.dataset.guardianEyeSelect = "";
       style.textContent = `
         ha-combo-box-item {
-          background-color: var(--ha-color-form-background, #101a2e) !important;
+          background-color: #101a2e !important;
           color: var(--primary-text-color, #e8eef6) !important;
           --md-list-item-label-text-color: var(--primary-text-color, #e8eef6);
           --md-list-item-supporting-text-color: var(--secondary-text-color, #9ca3af);
@@ -281,7 +313,7 @@ class GuardianEyeCameraCard extends HTMLElement {
           --md-list-item-trailing-space: 4px !important;
         }
         ha-combo-box-item[disabled] {
-          background-color: var(--ha-color-form-background-disabled, #111827) !important;
+          background-color: #111827 !important;
         }
       `;
       pickerRoot.append(style);

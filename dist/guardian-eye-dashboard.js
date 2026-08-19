@@ -1,16 +1,16 @@
-import "./guardian-eye-icons.js?v=1.0.2-rc4";
-import "./guardian-eye-camera-card.js?v=1.0.2-rc4";
-import "./guardian-eye-nvr-card.js?v=1.0.2-rc4";
+import "./guardian-eye-icons.js?v=1.0.2-rc5";
+import "./guardian-eye-camera-card.js?v=1.0.2-rc5";
+import "./guardian-eye-nvr-card.js?v=1.0.2-rc5";
 import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.2-rc4";
+} from "./guardian-eye-localization.js?v=1.0.2-rc5";
 import {
   cameraConfig,
   guardianCameraDevices,
   nvrConfig,
-} from "./guardian-eye-dashboard-config.js?v=1.0.2-rc4";
+} from "./guardian-eye-dashboard-config.js?v=1.0.2-rc5";
 
 const DASHBOARD_CARD_TAG = "guardian-eye-dashboard-card";
 const DASHBOARD_STRATEGY_TAG = "ll-strategy-dashboard-guardian-eye";

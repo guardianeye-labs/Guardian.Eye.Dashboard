@@ -82,6 +82,8 @@ const cameraCardSource = await import("node:fs/promises")
 assert.match(cameraCardSource, /--md-list-item-one-line-container-height:\s*36px/);
 assert.match(cameraCardSource, /ha-color-form-background-disabled/);
 assert.match(cameraCardSource, /md-list-item-label-text-color/);
+assert.match(cameraCardSource, /ha-dropdown-item\[selected\]/);
+assert.match(cameraCardSource, /background-color:\s*#101a2e !important/);
 assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 2px 4px; \}/);
 
 const dashboardCardSource = await import("node:fs/promises")
