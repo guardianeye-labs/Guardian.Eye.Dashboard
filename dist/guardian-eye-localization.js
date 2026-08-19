@@ -47,7 +47,7 @@ function localeCandidates(language) {
 async function fetchLocale(locale) {
   try {
     const url = new URL(
-      `guardian-eye-locales/Strings.${locale}.json?v=1.0.2-rc5`,
+      `guardian-eye-locales/Strings.${locale}.json?v=1.0.2`,
       resourceRoot,
     );
     const response = await fetch(url, { cache: "force-cache" });
