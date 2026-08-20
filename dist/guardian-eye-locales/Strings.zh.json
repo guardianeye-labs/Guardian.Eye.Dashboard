@@ -15,6 +15,11 @@
   "Cameras": "摄像头",
   "NoCameras": "无摄像头",
   "Recording": "录像",
+  "RecordingOff": "关闭",
+  "RecordingAlways": "持续录像",
+  "RecordingOnMotion": "移动侦测录像",
+  "RecordingOnAI": "仅 AI 录像",
+  "RecordingOnONVIF": "摄像头事件",
   "TimelineMotion": "动态",
   "TimelineAI": "AI检测",
   "ScannerTabHlsStream": "流媒体"

@@ -15,6 +15,11 @@
   "Cameras": "Cameras",
   "NoCameras": "No cameras",
   "Recording": "Recording",
+  "RecordingOff": "Off",
+  "RecordingAlways": "Always",
+  "RecordingOnMotion": "On motion",
+  "RecordingOnAI": "AI only",
+  "RecordingOnONVIF": "Camera events",
   "TimelineMotion": "Motion",
   "TimelineAI": "AI Detection",
   "ScannerTabHlsStream": "Stream"

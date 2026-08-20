@@ -15,6 +15,11 @@
   "Cameras": "الكاميرات",
   "NoCameras": "لا توجد كاميرات",
   "Recording": "التسجيل",
+  "RecordingOff": "إيقاف",
+  "RecordingAlways": "دائماً",
+  "RecordingOnMotion": "عند الحركة",
+  "RecordingOnAI": "الذكاء الاصطناعي فقط",
+  "RecordingOnONVIF": "أحداث الكاميرا",
   "TimelineAI": "كشف الذكاء الاصطناعي",
   "TimelineMotion": "الحركة",
   "ScannerTabHlsStream": "البث"

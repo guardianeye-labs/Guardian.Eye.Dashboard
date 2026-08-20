@@ -15,6 +15,11 @@
   "Cameras": "Kameras",
   "NoCameras": "Keine Kameras",
   "Recording": "Aufnahme",
+  "RecordingOff": "Aus",
+  "RecordingAlways": "Immer",
+  "RecordingOnMotion": "Bei Bewegung",
+  "RecordingOnAI": "Nur AI",
+  "RecordingOnONVIF": "Kameraereignisse",
   "TimelineMotion": "Bewegung",
   "TimelineAI": "KI-Erkennung",
   "ScannerTabHlsStream": "Datenstrom"

@@ -15,6 +15,11 @@
   "Cameras": "Kamera",
   "NoCameras": "Tidak ada kamera",
   "Recording": "Rekaman",
+  "RecordingOff": "Mati",
+  "RecordingAlways": "Selalu",
+  "RecordingOnMotion": "Saat gerakan",
+  "RecordingOnAI": "Hanya AI",
+  "RecordingOnONVIF": "Peristiwa kamera",
   "TimelineAI": "Deteksi AI",
   "TimelineMotion": "Gerakan",
   "ScannerTabHlsStream": "Aliran"

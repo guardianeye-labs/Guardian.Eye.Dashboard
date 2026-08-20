@@ -15,6 +15,11 @@
   "Cameras": "Câmeras",
   "NoCameras": "Sem câmeras",
   "Recording": "Gravação",
+  "RecordingOff": "Desativado",
+  "RecordingAlways": "Sempre",
+  "RecordingOnMotion": "Com movimento",
+  "RecordingOnAI": "Somente IA",
+  "RecordingOnONVIF": "Eventos da câmera",
   "TimelineAI": "Detecção por IA",
   "TimelineMotion": "Movimento",
   "ScannerTabHlsStream": "Transmissão"

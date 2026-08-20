@@ -15,6 +15,11 @@
   "Cameras": "ক্যামেরাগুলো",
   "NoCameras": "কোনো ক্যামেরা নেই",
   "Recording": "রেকর্ডিং",
+  "RecordingOff": "বন্ধ",
+  "RecordingAlways": "সর্বদা",
+  "RecordingOnMotion": "গতিতে",
+  "RecordingOnAI": "শুধু AI",
+  "RecordingOnONVIF": "ক্যামেরা ইভেন্ট",
   "TimelineAI": "AI সনাক্তকরণ",
   "TimelineMotion": "গতি",
   "ScannerTabHlsStream": "স্ট্রিম"

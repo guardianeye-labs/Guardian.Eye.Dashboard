@@ -19,6 +19,10 @@ const {
   cameraConfig,
   nvrConfig,
 } = await import("../dist/guardian-eye-dashboard-config.js");
+const {
+  localizeRecordingMode,
+  localizeRecordingModeHass,
+} = await import("../dist/guardian-eye-localization.js");
 const { GuardianEyeDashboardStrategy } =
   await import("../dist/Guardian.Eye.Dashboard.js");
 
@@ -59,12 +63,52 @@ const entities = [
 const config = cameraConfig(camera, entities);
 assert.equal(config.title, "Front Door");
 assert.equal(config.image_entity, "image.front_snapshot");
+assert.equal(config.recording_mode_entity, "select.front_mode");
 assert.deepEqual(
   config.entities[0].entities.map((button) => button.entity),
   ["button.front_zoom_out", "button.front_home", "button.front_stop", "button.front_zoom_in"],
 );
 assert.ok(config.entities.some((row) => row.entity === "select.front_mode" && row.name === ""));
 assert.equal(config.entities.at(-1).entity, "switch.front_power");
+
+const russianModes = {
+  RecordingOff: "Выкл",
+  RecordingAlways: "Постоянно",
+  RecordingOnMotion: "По движению",
+  RecordingOnAI: "Только AI",
+  RecordingOnONVIF: "По событиям камеры",
+};
+assert.equal(localizeRecordingMode(russianModes, "ONVIF"), "По событиям камеры");
+assert.equal(localizeRecordingMode(russianModes, "VENDOR_MODE"), "VENDOR_MODE");
+
+const serviceCalls = [];
+const hass = {
+  states: {
+    "select.front_mode": {
+      entity_id: "select.front_mode",
+      state: "ONVIF",
+      attributes: { options: ["OFF", "ALWAYS", "MOTION", "AI", "ONVIF"] },
+    },
+  },
+  callService(...args) {
+    serviceCalls.push(args);
+  },
+};
+const localizedHass = localizeRecordingModeHass(
+  hass,
+  "select.front_mode",
+  russianModes,
+);
+assert.equal(localizedHass.states["select.front_mode"].state, "По событиям камеры");
+assert.deepEqual(
+  localizedHass.states["select.front_mode"].attributes.options,
+  ["Выкл", "Постоянно", "По движению", "Только AI", "По событиям камеры"],
+);
+localizedHass.callService("select", "select_option", {
+  entity_id: "select.front_mode",
+  option: "По событиям камеры",
+});
+assert.equal(serviceCalls[0][2].option, "ONVIF");
 
 const telemetry = nvrConfig([camera, nvr], entities);
 assert.equal(telemetry.entities.status, "sensor.renamed_status");
@@ -86,6 +130,7 @@ assert.match(cameraCardSource, /ha-dropdown-item\[selected\]/);
 assert.match(cameraCardSource, /background-color:\s*#101a2e !important/);
 assert.match(cameraCardSource, /\.card-content \{ padding: 6px 9px 10px !important; \}/);
 assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 3px 7px; \}/);
+assert.match(cameraCardSource, /#states > div:has\(> hui-select-entity-row\)[\s\S]*max-width: 160px/);
 assert.match(cameraCardSource, /border:\s*1px solid var\(--guardian-eye-accent, #00d4ff\)/);
 
 const iconSource = await import("node:fs/promises")

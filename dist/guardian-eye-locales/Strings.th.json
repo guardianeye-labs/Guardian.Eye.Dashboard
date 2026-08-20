@@ -15,6 +15,11 @@
   "Cameras": "กล้อง",
   "NoCameras": "ไม่มีกล้อง",
   "Recording": "การบันทึก",
+  "RecordingOff": "ปิด",
+  "RecordingAlways": "ตลอดเวลา",
+  "RecordingOnMotion": "เมื่อมีการเคลื่อนไหว",
+  "RecordingOnAI": "เฉพาะ AI",
+  "RecordingOnONVIF": "เหตุการณ์กล้อง",
   "TimelineAI": "การตรวจจับ AI",
   "TimelineMotion": "การเคลื่อนไหว",
   "ScannerTabHlsStream": "สตรีม"

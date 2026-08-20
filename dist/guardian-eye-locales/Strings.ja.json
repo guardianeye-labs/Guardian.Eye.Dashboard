@@ -15,6 +15,11 @@
   "Cameras": "カメラ",
   "NoCameras": "カメラなし",
   "Recording": "録画",
+  "RecordingOff": "オフ",
+  "RecordingAlways": "常時",
+  "RecordingOnMotion": "動体検知時",
+  "RecordingOnAI": "AIのみ",
+  "RecordingOnONVIF": "カメライベント",
   "TimelineAI": "AI検出",
   "TimelineMotion": "動体",
   "ScannerTabHlsStream": "ストリーム"

@@ -91,6 +91,7 @@ export function cameraConfig(device, entities) {
     title: compactTitle(title),
     full_title: title,
     image_entity: entityFor(entities, deviceId, "_snapshot"),
+    recording_mode_entity: recordingMode,
     entities: [
       ...ptzRows(entities, deviceId),
       ...imagingRows(entities, deviceId),

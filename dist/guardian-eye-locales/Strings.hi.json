@@ -15,6 +15,11 @@
   "Cameras": "कैमरे",
   "NoCameras": "कोई कैमरा नहीं",
   "Recording": "रिकॉर्डिंग",
+  "RecordingOff": "बंद",
+  "RecordingAlways": "हमेशा",
+  "RecordingOnMotion": "गति पर",
+  "RecordingOnAI": "केवल AI",
+  "RecordingOnONVIF": "कैमरा इवेंट",
   "TimelineAI": "AI डिटेक्शन",
   "TimelineMotion": "गति",
   "ScannerTabHlsStream": "स्ट्रीम"

@@ -15,6 +15,11 @@
   "Cameras": "카메라",
   "NoCameras": "카메라 없음",
   "Recording": "녹화",
+  "RecordingOff": "끄기",
+  "RecordingAlways": "항상",
+  "RecordingOnMotion": "동작 감지 시",
+  "RecordingOnAI": "AI만",
+  "RecordingOnONVIF": "카메라 이벤트",
   "TimelineAI": "AI 감지",
   "TimelineMotion": "동작",
   "ScannerTabHlsStream": "스트림"

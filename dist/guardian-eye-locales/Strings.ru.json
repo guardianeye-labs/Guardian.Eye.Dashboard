@@ -15,6 +15,11 @@
   "Cameras": "Камеры",
   "NoCameras": "Нет камер",
   "Recording": "Запись",
+  "RecordingOff": "Выкл",
+  "RecordingAlways": "Постоянно",
+  "RecordingOnMotion": "По движению",
+  "RecordingOnAI": "Только AI",
+  "RecordingOnONVIF": "По событиям камеры",
   "TimelineMotion": "Движение",
   "TimelineAI": "ИИ детекция",
   "ScannerTabHlsStream": "Трансляция"

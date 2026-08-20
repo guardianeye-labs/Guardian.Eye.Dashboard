@@ -1,8 +1,9 @@
 import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
+  localizeRecordingModeHass,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.5";
+} from "./guardian-eye-localization.js?v=1.0.6";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -30,9 +31,6 @@ class GuardianEyeCameraCard extends HTMLElement {
 
   set hass(value) {
     this._hass = value;
-    if (this._entitiesCard) {
-      this._entitiesCard.hass = value;
-    }
     const language = homeAssistantLanguage(value);
     if (language !== this._language) {
       this._language = language;
@@ -41,6 +39,7 @@ class GuardianEyeCameraCard extends HTMLElement {
       void this._loadTranslations(language);
     }
     this._renderEntitiesIfNeeded();
+    this._setEntitiesHass();
     this._updateSnapshot();
   }
 
@@ -136,9 +135,7 @@ class GuardianEyeCameraCard extends HTMLElement {
     }
 
     this._entitiesCard = card;
-    if (this._hass) {
-      card.hass = this._hass;
-    }
+    this._setEntitiesHass();
     this.shadowRoot.querySelector(".entities").replaceChildren(card);
     requestAnimationFrame(() => void this._compactNestedCard());
   }
@@ -151,6 +148,18 @@ class GuardianEyeCameraCard extends HTMLElement {
     this._translations = translations;
     this._entitiesLabelsSignature = null;
     this._renderEntitiesIfNeeded();
+    this._setEntitiesHass();
+  }
+
+  _setEntitiesHass() {
+    if (!this._entitiesCard || !this._hass) {
+      return;
+    }
+    this._entitiesCard.hass = localizeRecordingModeHass(
+      this._hass,
+      this._config.recording_mode_entity,
+      this._translations,
+    );
   }
 
   _renderEntitiesIfNeeded() {

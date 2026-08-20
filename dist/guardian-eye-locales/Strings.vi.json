@@ -15,6 +15,11 @@
   "Cameras": "Camera",
   "NoCameras": "Không có camera",
   "Recording": "Ghi hình",
+  "RecordingOff": "Tắt",
+  "RecordingAlways": "Luôn luôn",
+  "RecordingOnMotion": "Khi có chuyển động",
+  "RecordingOnAI": "Chỉ AI",
+  "RecordingOnONVIF": "Sự kiện camera",
   "TimelineAI": "Phát hiện AI",
   "TimelineMotion": "Chuyển động",
   "ScannerTabHlsStream": "Luồng phát"

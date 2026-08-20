@@ -15,6 +15,11 @@
   "Cameras": "攝影機",
   "NoCameras": "無攝影機",
   "Recording": "錄影",
+  "RecordingOff": "關閉",
+  "RecordingAlways": "始終",
+  "RecordingOnMotion": "動作時",
+  "RecordingOnAI": "僅 AI",
+  "RecordingOnONVIF": "攝影機事件",
   "TimelineAI": "AI偵測",
   "TimelineMotion": "動作",
   "ScannerTabHlsStream": "串流"

@@ -15,6 +15,11 @@
   "Cameras": "Kameralar",
   "NoCameras": "Kamera yok",
   "Recording": "Kayıt",
+  "RecordingOff": "Kapalı",
+  "RecordingAlways": "Her zaman",
+  "RecordingOnMotion": "Harekette",
+  "RecordingOnAI": "Sadece AI",
+  "RecordingOnONVIF": "Kamera olayları",
   "TimelineAI": "YZ algılama",
   "TimelineMotion": "Hareket",
   "ScannerTabHlsStream": "Akış"
