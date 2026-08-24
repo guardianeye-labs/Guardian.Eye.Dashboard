@@ -29,6 +29,24 @@ repository:
 
 No dashboard YAML or manual camera cards are required.
 
+## Optional global theme
+
+The JavaScript resource styles the Guardian Eye dashboard itself. Home Assistant global themes
+are server-side files and cannot be registered by a dashboard JavaScript module. To style the
+Home Assistant sidebar and dialogs as well:
+
+1. Download
+   [`GuardianEyeTheme.yaml`](https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v1.0.9/GuardianEyeTheme.yaml).
+2. Place it at `/config/themes/GuardianEyeTheme.yaml`.
+3. Confirm that `configuration.yaml` contains:
+
+   ```yaml
+   frontend:
+     themes: !include_dir_merge_named themes
+   ```
+
+4. Reload themes or restart Home Assistant, then select **Guardian Eye** in the user profile.
+
 ## Updating
 
 Install the new version from HACS and reload the Home Assistant frontend. The

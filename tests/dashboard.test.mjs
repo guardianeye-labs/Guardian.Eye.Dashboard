@@ -186,11 +186,16 @@ const release = await import("node:fs/promises")
   ))
   .then(JSON.parse);
 assert.equal(release.schemaVersion, 1);
-assert.equal(release.version, "1.0.8");
+assert.equal(release.version, "1.0.9");
 assert.equal(
   release.resourceUrl,
   `https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v${release.version}/Guardian.Eye.Dashboard.js`,
 );
+
+const themeSource = await import("node:fs/promises")
+  .then(({ readFile }) => readFile(new URL("../dist/GuardianEyeTheme.yaml", import.meta.url), "utf8"));
+assert.match(themeSource, /^Guardian Eye:\n/);
+assert.match(themeSource, /primary-color: "#00D4FF"/);
 
 const dashboardCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-dashboard.js", import.meta.url), "utf8"));

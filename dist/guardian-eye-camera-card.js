@@ -3,7 +3,7 @@ import {
   loadGuardianEyeTranslations,
   localizeRecordingModeHass,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.8";
+} from "./guardian-eye-localization.js?v=1.0.9";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
