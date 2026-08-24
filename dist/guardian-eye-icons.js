@@ -39,11 +39,17 @@ export async function refreshGuardianEyeIcons(root = document) {
   }
 }
 
+export function scheduleGuardianEyeIconRefresh(root = document) {
+  for (const delay of [0, 100, 500, 1500]) {
+    setTimeout(() => void refreshGuardianEyeIcons(root), delay);
+  }
+}
+
 window.customIconsets = window.customIconsets || {};
 window.customIconsets[ICON_SET] = getIcon;
 window.customIcons = window.customIcons || {};
 window.customIcons[ICON_SET] = { getIcon, getIconList };
 
-if (typeof document !== "undefined" && typeof requestAnimationFrame === "function") {
-  requestAnimationFrame(() => void refreshGuardianEyeIcons());
+if (typeof document !== "undefined") {
+  scheduleGuardianEyeIconRefresh();
 }

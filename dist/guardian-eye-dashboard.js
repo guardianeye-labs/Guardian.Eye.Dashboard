@@ -1,16 +1,16 @@
-import "./guardian-eye-icons.js?v=1.0.6";
-import "./guardian-eye-camera-card.js?v=1.0.6";
-import "./guardian-eye-nvr-card.js?v=1.0.6";
+import { scheduleGuardianEyeIconRefresh } from "./guardian-eye-icons.js?v=1.0.7";
+import "./guardian-eye-camera-card.js?v=1.0.7";
+import "./guardian-eye-nvr-card.js?v=1.0.7";
 import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.6";
+} from "./guardian-eye-localization.js?v=1.0.7";
 import {
   cameraConfig,
   guardianCameraDevices,
   nvrConfig,
-} from "./guardian-eye-dashboard-config.js?v=1.0.6";
+} from "./guardian-eye-dashboard-config.js?v=1.0.7";
 
 const DASHBOARD_CARD_TAG = "guardian-eye-dashboard-card";
 const DASHBOARD_STRATEGY_TAG = "ll-strategy-dashboard-guardian-eye";
@@ -40,6 +40,7 @@ class GuardianEyeDashboardCard extends HTMLElement {
   }
 
   connectedCallback() {
+    scheduleGuardianEyeIconRefresh();
     this._ensureRegistryLoaded();
     this._ensureRegistrySubscriptions();
   }

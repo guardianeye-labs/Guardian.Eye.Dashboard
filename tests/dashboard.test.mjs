@@ -136,6 +136,7 @@ assert.match(cameraCardSource, /border:\s*1px solid var\(--guardian-eye-accent, 
 const iconSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-icons.js", import.meta.url), "utf8"));
 assert.match(iconSource, /window\.customIcons\[ICON_SET\] = \{ getIcon, getIconList \}/);
+assert.match(iconSource, /for \(const delay of \[0, 100, 500, 1500\]\)/);
 assert.deepEqual(
   await window.customIconsets["guardian-eye"]("logo"),
   {
@@ -164,9 +165,23 @@ const documentRoot = {
 await refreshGuardianEyeIcons(documentRoot);
 assert.deepEqual(assignments, ["mdi:cctv", "guardian-eye:logo"]);
 
+const release = await import("node:fs/promises")
+  .then(({ readFile }) => readFile(
+    new URL("../dist/guardian-eye-dashboard-release.json", import.meta.url),
+    "utf8",
+  ))
+  .then(JSON.parse);
+assert.equal(release.schemaVersion, 1);
+assert.equal(release.version, "1.0.7");
+assert.equal(
+  release.resourceUrl,
+  `https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v${release.version}/Guardian.Eye.Dashboard.js`,
+);
+
 const dashboardCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-dashboard.js", import.meta.url), "utf8"));
 assert.match(dashboardCardSource, /--ha-color-form-background:\s*#101a2e/);
+assert.match(dashboardCardSource, /scheduleGuardianEyeIconRefresh\(\)/);
 assert.match(dashboardCardSource, /--ha-color-form-background-disabled:\s*#111827/);
 
 const nvrCardSource = await import("node:fs/promises")
