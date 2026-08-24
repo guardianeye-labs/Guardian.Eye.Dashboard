@@ -3,7 +3,7 @@ import {
   loadGuardianEyeTranslations,
   localizeRecordingModeHass,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.7";
+} from "./guardian-eye-localization.js?v=1.0.8";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -173,9 +173,9 @@ class GuardianEyeCameraCard extends HTMLElement {
   _localizedEntities() {
     return this._config.entities.map((row) => {
       if (row?.type === "buttons" && Array.isArray(row.entities)) {
-        const entities = row.entities.filter((button) =>
-          typeof button?.entity !== "string" || this._hass?.states?.[button.entity]);
-        return entities.length ? { ...row, entities } : null;
+        // Button rows are built from the HA entity registry. Do not drop them when the
+        // state machine is still catching up with newly discovered retained entities.
+        return row.entities.length ? row : null;
       }
 
       if (!row || typeof row !== "object" || typeof row.entity !== "string") {

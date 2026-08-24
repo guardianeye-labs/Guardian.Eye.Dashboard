@@ -56,6 +56,10 @@ const entities = [
   entity("camera-device", "guardian_camera_ptz_home", "button.front_home"),
   entity("camera-device", "guardian_camera_ptz_stop", "button.front_stop"),
   entity("camera-device", "guardian_camera_ptz_zoom_in", "button.front_zoom_in"),
+  entity("camera-device", "guardian_camera_brightness", "number.front_brightness"),
+  entity("camera-device", "guardian_camera_contrast", "number.front_contrast"),
+  entity("camera-device", "guardian_camera_saturation", "number.front_saturation"),
+  entity("camera-device", "guardian_camera_sharpness", "number.front_sharpness"),
   entity("nvr-device", "guardian_eye_nvr_status", "sensor.renamed_status"),
   entity("nvr-device", "guardian_eye_nvr_storage", "sensor.renamed_storage"),
 ];
@@ -67,6 +71,15 @@ assert.equal(config.recording_mode_entity, "select.front_mode");
 assert.deepEqual(
   config.entities[0].entities.map((button) => button.entity),
   ["button.front_zoom_out", "button.front_home", "button.front_stop", "button.front_zoom_in"],
+);
+assert.deepEqual(
+  config.entities[1].entities.map((button) => button.entity),
+  [
+    "number.front_brightness",
+    "number.front_contrast",
+    "number.front_saturation",
+    "number.front_sharpness",
+  ],
 );
 assert.ok(config.entities.some((row) => row.entity === "select.front_mode" && row.name === ""));
 assert.equal(config.entities.at(-1).entity, "switch.front_power");
@@ -132,6 +145,7 @@ assert.match(cameraCardSource, /\.card-content \{ padding: 6px 9px 10px !importa
 assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 3px 7px; \}/);
 assert.match(cameraCardSource, /#states > div:has\(> hui-select-entity-row\)[\s\S]*max-width: 160px/);
 assert.match(cameraCardSource, /border:\s*1px solid var\(--guardian-eye-accent, #00d4ff\)/);
+assert.doesNotMatch(cameraCardSource, /_hass\?\.states\?\.\[button\.entity\]/);
 
 const iconSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-icons.js", import.meta.url), "utf8"));
@@ -172,7 +186,7 @@ const release = await import("node:fs/promises")
   ))
   .then(JSON.parse);
 assert.equal(release.schemaVersion, 1);
-assert.equal(release.version, "1.0.7");
+assert.equal(release.version, "1.0.8");
 assert.equal(
   release.resourceUrl,
   `https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v${release.version}/Guardian.Eye.Dashboard.js`,
