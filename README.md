@@ -36,7 +36,7 @@ are server-side files and cannot be registered by a dashboard JavaScript module.
 Home Assistant sidebar and dialogs as well:
 
 1. Download
-   [`GuardianEyeTheme.yaml`](https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v1.0.9/GuardianEyeTheme.yaml).
+   [`GuardianEyeTheme.yaml`](https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v1.0.10/GuardianEyeTheme.yaml).
 2. Place it at `/config/themes/GuardianEyeTheme.yaml`.
 3. Confirm that `configuration.yaml` contains:
 

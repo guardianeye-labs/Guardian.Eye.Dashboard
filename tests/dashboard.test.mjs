@@ -138,8 +138,12 @@ const cameraCardSource = await import("node:fs/promises")
   .then(({ readFile }) => readFile(new URL("../dist/guardian-eye-camera-card.js", import.meta.url), "utf8"));
 assert.match(cameraCardSource, /--md-list-item-one-line-container-height:\s*36px/);
 assert.match(cameraCardSource, /ha-color-form-background-disabled/);
+assert.match(cameraCardSource, /wa-color-neutral-fill-normal/);
+assert.match(cameraCardSource, /wa-color-text-normal/);
 assert.match(cameraCardSource, /md-list-item-label-text-color/);
 assert.match(cameraCardSource, /ha-dropdown-item\[selected\]/);
+assert.match(cameraCardSource, /ha-dropdown-item:hover/);
+assert.match(cameraCardSource, /ha-dropdown-item:focus-visible/);
 assert.match(cameraCardSource, /background-color:\s*#101a2e !important/);
 assert.match(cameraCardSource, /\.card-content \{ padding: 6px 9px 10px !important; \}/);
 assert.match(cameraCardSource, /#states > div:has\(> hui-buttons-row\) \{ margin-block: 3px 7px; \}/);
@@ -186,7 +190,7 @@ const release = await import("node:fs/promises")
   ))
   .then(JSON.parse);
 assert.equal(release.schemaVersion, 1);
-assert.equal(release.version, "1.0.9");
+assert.equal(release.version, "1.0.10");
 assert.equal(
   release.resourceUrl,
   `https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v${release.version}/Guardian.Eye.Dashboard.js`,

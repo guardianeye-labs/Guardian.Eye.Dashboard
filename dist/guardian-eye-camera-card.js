@@ -3,7 +3,7 @@ import {
   loadGuardianEyeTranslations,
   localizeRecordingModeHass,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.9";
+} from "./guardian-eye-localization.js?v=1.0.10";
 
 const CARD_TAG = "guardian-eye-camera-card";
 const ENTITY_LABELS = [
@@ -285,6 +285,12 @@ class GuardianEyeCameraCard extends HTMLElement {
       );
       select?.style.setProperty("--primary-text-color", "#e8eef6");
       select?.style.setProperty("--secondary-text-color", "#9ca3af");
+      select?.style.setProperty("--wa-color-surface-raised", "#101a2e");
+      select?.style.setProperty("--wa-color-text-normal", "#e8eef6");
+      select?.style.setProperty(
+        "--wa-color-neutral-fill-normal",
+        "rgba(0, 212, 255, 0.24)",
+      );
 
       const selectRoot = select?.shadowRoot;
       if (selectRoot && !selectRoot.querySelector("style[data-guardian-eye-select-menu]")) {
@@ -298,8 +304,12 @@ class GuardianEyeCameraCard extends HTMLElement {
             background-color: rgba(0, 212, 255, 0.16) !important;
             color: #67e8f9 !important;
           }
+          ha-dropdown-item:hover,
+          ha-dropdown-item:focus,
+          ha-dropdown-item:focus-visible,
           ha-dropdown-item[selected]:hover {
             background-color: rgba(0, 212, 255, 0.24) !important;
+            color: #67e8f9 !important;
           }
         `;
         selectRoot.append(menuStyle);
