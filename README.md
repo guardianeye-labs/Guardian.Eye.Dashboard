@@ -1,5 +1,7 @@
 # Guardian Eye for Home Assistant
 
+![Guardian Eye dashboard](docs/guardian-eye.png)
+
 Camera dashboard, authenticated live viewing, MQTT sensors and camera controls.
 
 Start in **Guardian Eye → Settings → Home Assistant → Check for update**. GE selects a compatible
