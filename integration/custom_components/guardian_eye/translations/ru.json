@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Просмотр видео"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Подключение Guardian Eye",
+        "description": "Введите адрес Guardian Eye и токен с правом просмотра камер. Токен хранится только на сервере Home Assistant.",
+        "data": {
+          "url": "Адрес Guardian Eye",
+          "token": "Токен Guardian"
+        }
+      },
+      "reconfigure": {
+        "title": "Подключение Guardian Eye",
+        "description": "Введите адрес Guardian Eye и токен с правом просмотра камер. Токен хранится только на сервере Home Assistant.",
+        "data": {
+          "url": "Адрес Guardian Eye",
+          "token": "Токен Guardian"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Подключение Guardian Eye",
+        "description": "Введите адрес Guardian Eye и токен с правом просмотра камер. Токен хранится только на сервере Home Assistant.",
+        "data": {
+          "url": "Адрес Guardian Eye",
+          "token": "Токен Guardian"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Не удалось подключиться. Проверьте адрес, сеть и сертификат.",
+      "invalid_auth": "Токен недействителен, истёк или не разрешает просмотр камер.",
+      "invalid_url": "Введите корректный HTTP(S)-адрес и токен."
+    },
+    "abort": {
+      "already_configured": "Этот сервер Guardian Eye уже настроен.",
+      "reconfigure_successful": "Настройки обновлены.",
+      "reauth_successful": "Авторизация обновлена."
+    }
+  }
+}

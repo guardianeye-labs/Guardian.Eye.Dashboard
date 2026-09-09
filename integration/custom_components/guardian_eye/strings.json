@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Live video"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Guardian Eye",
+        "description": "Enter the Guardian Eye URL and a token with camera viewing permission. The token stays on the Home Assistant server.",
+        "data": {
+          "url": "Guardian Eye URL",
+          "token": "Guardian token"
+        }
+      },
+      "reconfigure": {
+        "title": "Connect Guardian Eye",
+        "description": "Enter the Guardian Eye URL and a token with camera viewing permission. The token stays on the Home Assistant server.",
+        "data": {
+          "url": "Guardian Eye URL",
+          "token": "Guardian token"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Connect Guardian Eye",
+        "description": "Enter the Guardian Eye URL and a token with camera viewing permission. The token stays on the Home Assistant server.",
+        "data": {
+          "url": "Guardian Eye URL",
+          "token": "Guardian token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect. Check the URL, network and certificate.",
+      "invalid_auth": "The token is invalid, expired or does not allow camera viewing.",
+      "invalid_url": "Enter a valid HTTP(S) URL and token."
+    },
+    "abort": {
+      "already_configured": "This Guardian Eye server is already configured.",
+      "reconfigure_successful": "Configuration updated.",
+      "reauth_successful": "Authorization renewed."
+    }
+  }
+}

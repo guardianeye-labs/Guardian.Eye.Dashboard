@@ -1,9 +1,9 @@
 {
   "name": "guardian-eye-dashboard",
-  "version": "1.0.10",
+  "version": "1.0.22",
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/dashboard.test.mjs"
+    "test": "node --test tests/*.test.mjs"
   }
 }

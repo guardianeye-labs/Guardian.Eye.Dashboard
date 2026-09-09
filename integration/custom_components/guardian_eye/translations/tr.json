@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Canlı videoyu izle"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Guardian Eye bağlantısı",
+        "description": "Guardian Eye adresini ve kameraları görüntüleme izni olan bir belirteci girin. Belirteç Home Assistant sunucusunda kalır.",
+        "data": {
+          "url": "Guardian Eye adresi",
+          "token": "Guardian belirteci"
+        }
+      },
+      "reconfigure": {
+        "title": "Guardian Eye bağlantısı",
+        "description": "Guardian Eye adresini ve kameraları görüntüleme izni olan bir belirteci girin. Belirteç Home Assistant sunucusunda kalır.",
+        "data": {
+          "url": "Guardian Eye adresi",
+          "token": "Guardian belirteci"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Guardian Eye bağlantısı",
+        "description": "Guardian Eye adresini ve kameraları görüntüleme izni olan bir belirteci girin. Belirteç Home Assistant sunucusunda kalır.",
+        "data": {
+          "url": "Guardian Eye adresi",
+          "token": "Guardian belirteci"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Bağlantı kurulamadı. Adresi, ağı ve sertifikayı kontrol edin.",
+      "invalid_auth": "Belirteç geçersiz, süresi dolmuş veya kamera görüntüleme izni yok.",
+      "invalid_url": "Geçerli bir HTTP(S) adresi ve belirteç girin."
+    },
+    "abort": {
+      "already_configured": "Bu Guardian Eye sunucusu zaten yapılandırılmış.",
+      "reconfigure_successful": "Yapılandırma güncellendi.",
+      "reauth_successful": "Yetkilendirme yenilendi."
+    }
+  }
+}

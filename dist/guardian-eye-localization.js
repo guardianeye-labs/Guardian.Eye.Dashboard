@@ -1,5 +1,10 @@
 const translationCache = new Map();
 const resourceRoot = new URL(".", import.meta.url);
+const languageSync = new WeakMap();
+const objectKeys = Object.fromEntries([
+  "Person", "Car", "Dog", "Cat", "Bird", "Motorcycle", "Bicycle", "Bus", "Truck",
+  "Backpack", "Handbag", "Suitcase", "Laptop", "Chair", "Couch",
+].map(name => [name.toLowerCase(), `AI${name}`]));
 const recordingModeTranslations = {
   OFF: ["RecordingOff", "Off"],
   ALWAYS: ["RecordingAlways", "Always"],
@@ -10,6 +15,17 @@ const recordingModeTranslations = {
 
 export function homeAssistantLanguage(hass) {
   return hass?.language || hass?.locale?.language || navigator.language || "en";
+}
+
+export function syncGuardianEyeLanguage(hass) {
+  if (!hass?.user?.is_owner || !hass.connection || !hass.callWS) return;
+  const language = homeAssistantLanguage(hass);
+  const previous = languageSync.get(hass.connection);
+  if (previous?.language === language && previous.retryAt > Date.now()) return;
+  const current = { language, retryAt: Infinity };
+  languageSync.set(hass.connection, current);
+  Promise.resolve().then(() => hass.callWS({ type: "guardian_eye/frontend_language", language }))
+    .catch(() => { current.retryAt = Date.now() + 30_000; });
 }
 
 export async function loadGuardianEyeTranslations(language) {
@@ -74,6 +90,15 @@ export function localizeRecordingModeHass(hass, entityId, translations) {
   };
 }
 
+export function localizeAiDetectionHass(hass, entityId, translations) {
+  const entity = hass?.states?.[entityId];
+  const key = objectKeys[String(entity?.state || "").toLowerCase()];
+  if (!entity || !key) return hass;
+  return { ...hass, states: { ...hass.states, [entityId]: {
+    ...entity, state: translate(translations, key, entity.state),
+  } } };
+}
+
 function localeCandidates(language) {
   const normalized = String(language || "en").replaceAll("_", "-");
   const lower = normalized.toLowerCase();
@@ -97,7 +122,7 @@ function localeCandidates(language) {
 async function fetchLocale(locale) {
   try {
     const url = new URL(
-      `guardian-eye-locales/Strings.${locale}.json?v=1.0.10`,
+      `guardian-eye-locales/Strings.${locale}.json?v=1.0.22`,
       resourceRoot,
     );
     const response = await fetch(url, { cache: "force-cache" });

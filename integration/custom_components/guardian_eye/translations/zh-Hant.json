@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}觀看即時影像"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "連接 Guardian Eye",
+        "description": "請輸入 Guardian Eye 位址和具有攝影機檢視權限的權杖。權杖僅儲存在 Home Assistant 伺服器上。",
+        "data": {
+          "url": "Guardian Eye 位址",
+          "token": "Guardian 權杖"
+        }
+      },
+      "reconfigure": {
+        "title": "連接 Guardian Eye",
+        "description": "請輸入 Guardian Eye 位址和具有攝影機檢視權限的權杖。權杖僅儲存在 Home Assistant 伺服器上。",
+        "data": {
+          "url": "Guardian Eye 位址",
+          "token": "Guardian 權杖"
+        }
+      },
+      "reauth_confirm": {
+        "title": "連接 Guardian Eye",
+        "description": "請輸入 Guardian Eye 位址和具有攝影機檢視權限的權杖。權杖僅儲存在 Home Assistant 伺服器上。",
+        "data": {
+          "url": "Guardian Eye 位址",
+          "token": "Guardian 權杖"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "無法連線。請檢查位址、網路和憑證。",
+      "invalid_auth": "權杖無效、已過期或沒有攝影機檢視權限。",
+      "invalid_url": "請輸入有效的 HTTP(S) 位址和權杖。"
+    },
+    "abort": {
+      "already_configured": "此 Guardian Eye 伺服器已設定。",
+      "reconfigure_successful": "設定已更新。",
+      "reauth_successful": "授權已更新。"
+    }
+  }
+}

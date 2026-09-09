@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}مشاهدة الفيديو المباشر"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "ربط Guardian Eye",
+        "description": "أدخل عنوان Guardian Eye ورمز وصول يسمح بمشاهدة الكاميرات. يُحفظ الرمز على خادم Home Assistant فقط.",
+        "data": {
+          "url": "عنوان Guardian Eye",
+          "token": "رمز وصول Guardian"
+        }
+      },
+      "reconfigure": {
+        "title": "ربط Guardian Eye",
+        "description": "أدخل عنوان Guardian Eye ورمز وصول يسمح بمشاهدة الكاميرات. يُحفظ الرمز على خادم Home Assistant فقط.",
+        "data": {
+          "url": "عنوان Guardian Eye",
+          "token": "رمز وصول Guardian"
+        }
+      },
+      "reauth_confirm": {
+        "title": "ربط Guardian Eye",
+        "description": "أدخل عنوان Guardian Eye ورمز وصول يسمح بمشاهدة الكاميرات. يُحفظ الرمز على خادم Home Assistant فقط.",
+        "data": {
+          "url": "عنوان Guardian Eye",
+          "token": "رمز وصول Guardian"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "تعذر الاتصال. تحقق من العنوان والشبكة والشهادة.",
+      "invalid_auth": "الرمز غير صالح أو منتهي الصلاحية أو لا يسمح بمشاهدة الكاميرات.",
+      "invalid_url": "أدخل عنوان HTTP(S) ورمز وصول صالحين."
+    },
+    "abort": {
+      "already_configured": "خادم Guardian Eye هذا مُعدّ بالفعل.",
+      "reconfigure_successful": "تم تحديث الإعدادات.",
+      "reauth_successful": "تم تجديد التفويض."
+    }
+  }
+}

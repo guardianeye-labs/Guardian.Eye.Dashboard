@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Lihat video langsung"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Hubungkan Guardian Eye",
+        "description": "Masukkan alamat Guardian Eye dan token dengan izin melihat kamera. Token tetap tersimpan di server Home Assistant.",
+        "data": {
+          "url": "Alamat Guardian Eye",
+          "token": "Token Guardian"
+        }
+      },
+      "reconfigure": {
+        "title": "Hubungkan Guardian Eye",
+        "description": "Masukkan alamat Guardian Eye dan token dengan izin melihat kamera. Token tetap tersimpan di server Home Assistant.",
+        "data": {
+          "url": "Alamat Guardian Eye",
+          "token": "Token Guardian"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Hubungkan Guardian Eye",
+        "description": "Masukkan alamat Guardian Eye dan token dengan izin melihat kamera. Token tetap tersimpan di server Home Assistant.",
+        "data": {
+          "url": "Alamat Guardian Eye",
+          "token": "Token Guardian"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Tidak dapat terhubung. Periksa alamat, jaringan, dan sertifikat.",
+      "invalid_auth": "Token tidak valid, kedaluwarsa, atau tidak mengizinkan tampilan kamera.",
+      "invalid_url": "Masukkan alamat HTTP(S) dan token yang valid."
+    },
+    "abort": {
+      "already_configured": "Server Guardian Eye ini sudah dikonfigurasi.",
+      "reconfigure_successful": "Konfigurasi diperbarui.",
+      "reauth_successful": "Otorisasi diperbarui."
+    }
+  }
+}

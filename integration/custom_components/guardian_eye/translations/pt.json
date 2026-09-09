@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Ver vídeo em direto"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ligar o Guardian Eye",
+        "description": "Introduza o endereço do Guardian Eye e um token com permissão para ver as câmaras. O token permanece no servidor do Home Assistant.",
+        "data": {
+          "url": "Endereço do Guardian Eye",
+          "token": "Token do Guardian"
+        }
+      },
+      "reconfigure": {
+        "title": "Ligar o Guardian Eye",
+        "description": "Introduza o endereço do Guardian Eye e um token com permissão para ver as câmaras. O token permanece no servidor do Home Assistant.",
+        "data": {
+          "url": "Endereço do Guardian Eye",
+          "token": "Token do Guardian"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Ligar o Guardian Eye",
+        "description": "Introduza o endereço do Guardian Eye e um token com permissão para ver as câmaras. O token permanece no servidor do Home Assistant.",
+        "data": {
+          "url": "Endereço do Guardian Eye",
+          "token": "Token do Guardian"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não foi possível ligar. Verifique o endereço, a rede e o certificado.",
+      "invalid_auth": "O token é inválido, expirou ou não permite ver as câmaras.",
+      "invalid_url": "Introduza um endereço HTTP(S) e um token válidos."
+    },
+    "abort": {
+      "already_configured": "Este servidor do Guardian Eye já está configurado.",
+      "reconfigure_successful": "Configuração atualizada.",
+      "reauth_successful": "Autorização renovada."
+    }
+  }
+}

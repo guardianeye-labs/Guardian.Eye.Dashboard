@@ -2,7 +2,8 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.10";
+} from "./guardian-eye-localization.js?v=1.0.22";
+import { nvrDiagnostics } from "./guardian-eye-diagnostics.js?v=1.0.22";
 
 const CARD_TAG = "guardian-eye-nvr-card";
 const DEFAULT_ENTITIES = {
@@ -94,6 +95,11 @@ class GuardianEyeNvrCard extends HTMLElement {
       return;
     }
     this._translations = translations;
+    const metadata = window.customCards?.find(card => card.type === CARD_TAG);
+    if (metadata) {
+      metadata.name = translate(translations, "HANvrCardTitle", "Guardian Eye NVR");
+      metadata.description = translate(translations, "HANvrCardDescription", "Recorder status and diagnostics.");
+    }
     this._renderMetrics();
     await this._renderGauges();
     this._updateValues();
@@ -107,12 +113,50 @@ class GuardianEyeNvrCard extends HTMLElement {
       ["pending", "HAPendingEvents", "Pending Deliveries", this._entities.pending],
     ];
     const secondary = [
-      ["memory", "HAMemory", "Memory", this._entities.memory],
-      ["memoryLimit", "HAMemoryLimit", "Memory Limit", this._entities.memoryLimit],
-      ["inference", "HAAiInference", "AI Inference", this._entities.inference],
+      ["memory", "HADiagProcessMemory", "Guardian process memory", this._entities.memory],
+      ["memoryLimit", "HADiagMainMemoryLimit", "Main process memory limit", this._entities.memoryLimit],
+      ["inference", "HADiagMainInference", "AI inference (main process)", this._entities.inference],
+      // Read from the status entity's attributes rather than from an entity of its own. Live streaming is
+      // three numbers on a dashboard; giving each a sensor would add entities to every installation for
+      // something a single line already says.
+      ["live", "HALiveStreams", "Live Streams", this._entities.status],
+      ["processes", "HADiagProcesses", "Guardian processes", this._entities.status],
     ];
     this._renderMetricGroup(".metrics.primary", primary);
     this._renderMetricGroup(".metrics.secondary", secondary);
+  }
+
+  /**
+   * Live streaming in one line: how many cameras are publishing, how many people are watching.
+   *
+   * Three distinct absences, and they must not read alike. No attributes at all means this build has no
+   * live streaming — an em dash. A router that is not running is said in words, because zero publications
+   * with a stopped router is not the same news as zero publications with a healthy one. And a viewer count
+   * the router did not answer is omitted rather than shown as zero.
+   */
+  _live() {
+    const attributes = this._state(this._entities.status)?.attributes;
+    if (!attributes || attributes.live_router_running === undefined || attributes.live_router_running === null) {
+      return "—";
+    }
+
+    if (!attributes.live_router_running) {
+      return this._t("HALiveRouterUnavailable", "Video router unavailable");
+    }
+
+    const publications = attributes.live_active_publications ?? 0;
+    const stale = attributes.live_stale_publications ?? 0;
+    const viewers = attributes.live_viewers;
+
+    const parts = [`${publications}`];
+    if (viewers !== undefined && viewers !== null) {
+      parts.push(`${viewers} ${this._t("HALiveViewers", "watching")}`);
+    }
+    if (stale > 0) {
+      parts.push(`${stale} ${this._t("HALiveStale", "silent")}`);
+    }
+
+    return parts.join(" · ");
   }
 
   _renderMetricGroup(selector, definitions) {
@@ -172,7 +216,9 @@ class GuardianEyeNvrCard extends HTMLElement {
       pending: this._stateValue(this._entities.pending),
       memory: this._stateValue(this._entities.memory, " MB"),
       memoryLimit: this._stateValue(this._entities.memoryLimit, " MB"),
-      inference: this._stateValue(this._entities.inference, " ms"),
+      inference: this._inference(),
+      live: this._live(),
+      processes: this._state(this._entities.status)?.attributes?.resource_process_count ?? "—",
     };
     for (const [id, value] of Object.entries(values)) {
       const element = this.shadowRoot.querySelector(`[data-value="${id}"]`);
@@ -181,22 +227,32 @@ class GuardianEyeNvrCard extends HTMLElement {
     this._updateHealth(status);
   }
 
-  _updateHealth(status) {
-    const online = Number(this._stateValue(this._entities.cameras, "", "0"));
-    const total = Number(this._state(this._entities.status)?.attributes?.camera_count || 0);
-    const pending = Number(this._stateValue(this._entities.pending, "", "0"));
-    const retries = Number(this._stateValue(this._entities.retries, "", "0"));
-    const storage = Number(this._stateValue(this._entities.storage, "", "0"));
+  _inference() {
+    const attributes = this._state(this._entities.status)?.attributes || {};
+    // The main-process detector may be initialized without ever processing a camera frame.
+    return attributes.ai_initialized === true && attributes.ai_total_frames > 0
+      ? this._stateValue(this._entities.inference, " ms") : "—";
+  }
+
+  refreshDiagnostics(now = Date.now()) {
+    this._updateHealth(undefined, now);
+  }
+
+  _updateHealth(_status, now = Date.now()) {
+    const { status, fresh, pending, retries, storage } = nvrDiagnostics(
+      this._entities, this._hass?.states, now, this._config.diagnostics_stale_seconds);
     const issues = [];
-    if (status !== "ready") issues.push(`🔴 ${this._t("HAEventPipeline", "Event Pipeline")}: ${this._status(status)}`);
-    if (online < total) issues.push(`🟠 ${this._t("HACamerasOnline", "Cameras Online")}: ${online} / ${total}`);
+    if (!fresh || !status) issues.push(`🟠 ${this._t("HADiagNvrUnconfirmed", "NVR health is unconfirmed: telemetry is missing or out of date")}`);
+    else if (status !== "ready") issues.push(`🔴 ${this._t("HAEventPipeline", "Event Pipeline")}: ${this._status(status)}`);
+    if ([pending, retries, storage].some(value => value === null))
+      issues.push(`🟠 ${this._t("HADiagNvrMissing", "Queue or storage measurements are missing")}`);
     if (pending > 0) issues.push(`🟠 ${this._t("HAPendingEvents", "Pending Deliveries")}: ${pending}`);
     if (retries > 0) issues.push(`🟠 ${this._t("HADeliveryRetries", "Delivery Retries")}: ${retries}`);
     if (storage >= 75) issues.push(`🟠 ${this._t("HAStorageUsed", "Storage Used")}: ${storage}%`);
     const target = this.shadowRoot.querySelector(".health-content");
     target.replaceChildren();
     if (!issues.length) {
-      target.textContent = "🟢 OK";
+      target.textContent = this._t("HADiagNvrClear", "No issues in the reported queue and storage measurements");
       return;
     }
     for (const issue of issues) {

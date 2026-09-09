@@ -1,70 +1,23 @@
-# Guardian Eye Dashboard
+# Guardian Eye for Home Assistant
 
-![Guardian Eye](docs/guardian-eye.png)
+Camera dashboard, authenticated live viewing, MQTT sensors and camera controls.
 
-A dynamic Home Assistant dashboard for Guardian Eye NVR telemetry, cameras,
-events and controls. The dashboard discovers Guardian Eye devices from the Home
-Assistant MQTT device and entity registries, so camera entity IDs do not need to
-be maintained manually.
+Start in **Guardian Eye → Settings → Home Assistant → Check for update**. GE selects a compatible
+pair of dashboard and Python component versions. Download that package and follow the
+[installation guide](docs/INSTALL.md) / [инструкцию на русском](docs/INSTALL.ru.md).
 
-## Requirements
+A release provides `guardian-eye-ha-setup.zip` with both parts, separate dashboard and integration
+ZIPs, and SHA-256 checksums. MQTT creates cameras and sensors automatically; the Python component
+checks HA permissions and brokers temporary video access. There is no extra language selector.
 
-- Home Assistant 2026.5 or newer;
-- HACS;
-- Guardian Eye connected to the same MQTT broker as Home Assistant;
-- MQTT Discovery and Home Assistant publishing enabled in Guardian Eye.
+**Compatibility matters.** Use the version selected by GE rather than blindly installing the newest
+HACS release. Historical `/vVERSION/` links remain immutable. Legacy `/latest/` remains at 1.0.10 for
+older GE clients; current GE selects from the version ranges and contract revisions in `releases.json`.
 
-## Install with HACS
+For HACS, add `https://github.com/guardianeye-labs/Guardian.Eye.Dashboard` as a **Dashboard** repository.
+Install the GE-recommended dashboard version, then install the component from the matching package.
+HACS installs the modules and locales from `dist`, with `Guardian.Eye.Dashboard.js` as the entry point.
 
-Until the dashboard is included in the default HACS catalog, add it as a custom
-repository:
-
-1. Open **HACS** in Home Assistant.
-2. Open the three-dot menu and select **Custom repositories**.
-3. Add this repository URL and select the **Dashboard** category.
-4. Download **Guardian Eye Dashboard**.
-5. Reload the Home Assistant frontend when HACS asks for it.
-6. Open **Settings → Dashboards → Add dashboard**.
-7. Select **Guardian Eye** under **Community dashboards** and create it.
-
-No dashboard YAML or manual camera cards are required.
-
-## Optional global theme
-
-The JavaScript resource styles the Guardian Eye dashboard itself. Home Assistant global themes
-are server-side files and cannot be registered by a dashboard JavaScript module. To style the
-Home Assistant sidebar and dialogs as well:
-
-1. Download
-   [`GuardianEyeTheme.yaml`](https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v1.0.10/GuardianEyeTheme.yaml).
-2. Place it at `/config/themes/GuardianEyeTheme.yaml`.
-3. Confirm that `configuration.yaml` contains:
-
-   ```yaml
-   frontend:
-     themes: !include_dir_merge_named themes
-   ```
-
-4. Reload themes or restart Home Assistant, then select **Guardian Eye** in the user profile.
-
-## Updating
-
-Install the new version from HACS and reload the Home Assistant frontend. The
-dashboard layout is generated from the current MQTT registries, so camera
-additions and removals do not require reinstalling the dashboard.
-
-## Development
-
-Run the package tests with:
-
-```bash
-npm test
-```
-
-The public HACS entry point is `dist/Guardian.Eye.Dashboard.js`. Implementation
-modules and localization files are kept in `dist` so HACS installs them as one
-dashboard package.
-
-## License
-
-MIT
+Sources are exported together from the Guardian Eye repository by `integrations/HomeAssistant/prepare-release.py`.
+`source.json` records the source commit. Run `npm test` and `python3 tools/package.py --output /tmp/ha-packages`
+to validate and package an export. Release CI rejects an export made from uncommitted source changes.

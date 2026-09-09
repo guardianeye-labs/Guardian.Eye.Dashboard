@@ -5,6 +5,7 @@ const MANUFACTURER = "Guardian Eye";
 function entityFor(entities, deviceId, uniqueIdSuffix) {
   return entities.find((entity) =>
     entity.platform === "mqtt"
+    && !entity.disabled_by
     && entity.device_id === deviceId
     && String(entity.unique_id || "").endsWith(uniqueIdSuffix))?.entity_id;
 }
@@ -72,10 +73,11 @@ function compactTitle(title) {
   return withoutIp.length <= 21 ? withoutIp : `${withoutIp.slice(0, 20)}…`;
 }
 
-export function guardianCameraDevices(devices) {
+export function guardianCameraDevices(devices, entities) {
   return devices
     .filter((device) =>
-      device.manufacturer === MANUFACTURER && device.model === CAMERA_MODEL)
+      device.manufacturer === MANUFACTURER && device.model === CAMERA_MODEL
+      && entities.some((entity) => entity.platform === "mqtt" && entity.device_id === device.id))
     .sort((left, right) => {
       const leftName = left.name_by_user || left.name || "";
       const rightName = right.name_by_user || right.name || "";
@@ -87,11 +89,34 @@ export function cameraConfig(device, entities) {
   const deviceId = device.id;
   const title = device.name_by_user || device.name || "Camera";
   const recordingMode = entityFor(entities, deviceId, "_recording_mode");
+  // HA can keep devices from different integrations separate. Correlate their stable camera identity,
+  // never their display name or entity_id (both can be renamed by the user).
+  const cameraId = entities.filter((entity) => entity.platform === "mqtt" && entity.device_id === deviceId)
+    .map((entity) => /^guardian_eye_([0-9a-f-]{36})_/i.exec(entity.unique_id || "")?.[1]?.toLowerCase())
+    .find(Boolean);
+  const viewers = cameraId ? entities.filter((entity) => entity.platform === "guardian_eye"
+    && !entity.disabled_by && entity.entity_id.startsWith("camera.")
+    && String(entity.unique_id || "").toLowerCase().endsWith(`_${cameraId}_live_viewer`)) : [];
+  // Multiple Guardian connections for the same camera are ambiguous; never choose an arbitrary server.
+  const liveCamera = viewers.length === 1 ? viewers[0].entity_id : undefined;
   return {
     title: compactTitle(title),
     full_title: title,
     image_entity: entityFor(entities, deviceId, "_snapshot"),
+    live_entity: entityFor(entities, deviceId, "_live"),
+    ai_entity: entityFor(entities, deviceId, "_ai_detection"),
+    live_camera_entity: liveCamera,
+    live: Boolean(liveCamera),
+    camera_id: cameraId,
+    diagnostics: Object.fromEntries(Object.entries({
+      stream: "_stream", power: "_power", mode: "_recording_mode",
+      motion: "_motion", recording: "_recording_state", event: "_event",
+    }).map(([key, suffix]) => [key, entityFor(entities, deviceId, suffix)])
+      .filter(([, id]) => id)),
     recording_mode_entity: recordingMode,
+    object_entities: Object.fromEntries(["person", "vehicle", "animal"]
+      .map((group) => [group, entityFor(entities, deviceId, `_${group}`)])
+      .filter(([, id]) => id)),
     entities: [
       ...ptzRows(entities, deviceId),
       ...imagingRows(entities, deviceId),
@@ -99,6 +124,9 @@ export function cameraConfig(device, entities) {
         entityFor(entities, deviceId, "_stream"),
         entityFor(entities, deviceId, "_motion"),
         entityFor(entities, deviceId, "_ai_detection"),
+        entityFor(entities, deviceId, "_person"),
+        entityFor(entities, deviceId, "_vehicle"),
+        entityFor(entities, deviceId, "_animal"),
         entityFor(entities, deviceId, "_recording_state"),
       ]),
       ...(recordingMode ? [{ entity: recordingMode, name: "" }] : []),

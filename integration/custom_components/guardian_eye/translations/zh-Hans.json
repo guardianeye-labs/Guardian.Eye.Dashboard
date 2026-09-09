@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}观看实时视频"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "连接 Guardian Eye",
+        "description": "请输入 Guardian Eye 地址和具有摄像头查看权限的令牌。令牌仅保存在 Home Assistant 服务器上。",
+        "data": {
+          "url": "Guardian Eye 地址",
+          "token": "Guardian 令牌"
+        }
+      },
+      "reconfigure": {
+        "title": "连接 Guardian Eye",
+        "description": "请输入 Guardian Eye 地址和具有摄像头查看权限的令牌。令牌仅保存在 Home Assistant 服务器上。",
+        "data": {
+          "url": "Guardian Eye 地址",
+          "token": "Guardian 令牌"
+        }
+      },
+      "reauth_confirm": {
+        "title": "连接 Guardian Eye",
+        "description": "请输入 Guardian Eye 地址和具有摄像头查看权限的令牌。令牌仅保存在 Home Assistant 服务器上。",
+        "data": {
+          "url": "Guardian Eye 地址",
+          "token": "Guardian 令牌"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "无法连接。请检查地址、网络和证书。",
+      "invalid_auth": "令牌无效、已过期或没有摄像头查看权限。",
+      "invalid_url": "请输入有效的 HTTP(S) 地址和令牌。"
+    },
+    "abort": {
+      "already_configured": "此 Guardian Eye 服务器已配置。",
+      "reconfigure_successful": "配置已更新。",
+      "reauth_successful": "授权已更新。"
+    }
+  }
+}

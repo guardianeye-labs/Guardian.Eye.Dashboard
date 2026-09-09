@@ -1,16 +1,18 @@
-import { scheduleGuardianEyeIconRefresh } from "./guardian-eye-icons.js?v=1.0.10";
-import "./guardian-eye-camera-card.js?v=1.0.10";
-import "./guardian-eye-nvr-card.js?v=1.0.10";
+import { scheduleGuardianEyeIconRefresh } from "./guardian-eye-icons.js?v=1.0.22";
+import "./guardian-eye-camera-card.js?v=1.0.22";
+import "./guardian-eye-nvr-card.js?v=1.0.22";
+import { DIAGNOSTIC_STATUS } from "./guardian-eye-diagnostics.js?v=1.0.22";
 import {
   homeAssistantLanguage,
+  syncGuardianEyeLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.10";
+} from "./guardian-eye-localization.js?v=1.0.22";
 import {
   cameraConfig,
   guardianCameraDevices,
   nvrConfig,
-} from "./guardian-eye-dashboard-config.js?v=1.0.10";
+} from "./guardian-eye-dashboard-config.js?v=1.0.22";
 
 const DASHBOARD_CARD_TAG = "guardian-eye-dashboard-card";
 const DASHBOARD_STRATEGY_TAG = "ll-strategy-dashboard-guardian-eye";
@@ -28,7 +30,9 @@ class GuardianEyeDashboardCard extends HTMLElement {
 
   set hass(value) {
     this._hass = value;
+    syncGuardianEyeLanguage(value);
     this._updateChildren();
+    this._updateFleetDiagnostics();
     this._ensureRegistryLoaded();
     this._ensureRegistrySubscriptions();
 
@@ -43,10 +47,17 @@ class GuardianEyeDashboardCard extends HTMLElement {
     scheduleGuardianEyeIconRefresh();
     this._ensureRegistryLoaded();
     this._ensureRegistrySubscriptions();
+    clearInterval(this._diagnosticsTimer);
+    // One local clock for the fleet; no extra HA polling or media sessions.
+    this._diagnosticsTimer = setInterval(() => this._updateFleetDiagnostics(), 10_000);
   }
 
   disconnectedCallback() {
+    clearInterval(this._diagnosticsTimer);
+    this._diagnosticsTimer = null;
     clearTimeout(this._registryReloadTimer);
+    this._registryReloadTimer = null;
+    this._registryLoaded = false;
     for (const unsubscribe of this._unsubscribers || []) unsubscribe();
     this._unsubscribers = null;
   }
@@ -113,6 +124,16 @@ class GuardianEyeDashboardCard extends HTMLElement {
           color: var(--secondary-text-color);
           padding: 18px;
         }
+        .fleet-health { margin-top: 16px; padding: 12px 16px; background: var(--card-background-color);
+          border: 1px solid var(--divider-color); border-radius: 12px; }
+        .fleet-health summary { cursor: pointer; line-height: 1.6; }
+        .fleet-counts, .fleet-empty { color: var(--secondary-text-color); font-size: 0.85rem; }
+        .fleet-issues { display: grid; gap: 6px; max-height: 320px; overflow-y: auto; margin-top: 10px; }
+        .fleet-issue { text-align: start; border: 1px solid var(--divider-color); border-radius: 6px;
+          background: transparent; color: var(--primary-text-color); padding: 10px; cursor: pointer; font: inherit; }
+        .fleet-issue[data-category="problem"] { border-inline-start: 3px solid var(--error-color, #ff8b83); }
+        .fleet-issue[data-category="unknown"] { border-inline-start: 3px solid var(--warning-color, #f0c674); }
+        .fleet-health :focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
         @media (max-width: 1180px) {
           .camera-grid { grid-template-columns: repeat(3, minmax(260px, 1fr)); }
         }
@@ -128,6 +149,11 @@ class GuardianEyeDashboardCard extends HTMLElement {
         <div class="content">
           <h1>Guardian Eye NVR</h1>
           <guardian-eye-nvr-card></guardian-eye-nvr-card>
+          <details class="fleet-health" hidden>
+            <summary></summary>
+            <div class="fleet-counts"></div>
+            <div class="fleet-issues"></div>
+          </details>
           <h2 class="cameras-title">Cameras</h2>
           <div class="camera-grid"><div class="message">Loading cameras…</div></div>
         </div>
@@ -142,24 +168,35 @@ class GuardianEyeDashboardCard extends HTMLElement {
       || !this._hass
       || this._registryLoaded
       || this._registryLoad
+      || this._registryReloadTimer
       || Date.now() < (this._registryRetryAt || 0)
     ) return;
     this._registryLoad = this._loadRegistry().finally(() => {
       this._registryLoad = null;
+      // An event during the request invalidates its snapshot. Fetch once more after the burst settles.
+      if (this.isConnected && !this._registryLoaded && !this._registryReloadTimer
+        && Date.now() >= (this._registryRetryAt || 0)) this._scheduleRegistryReload();
     });
   }
 
   async _loadRegistry() {
+    const generation = this._registryGeneration || 0;
     try {
       const [entities, devices] = await Promise.all([
         this._hass.callWS({ type: "config/entity_registry/list" }),
         this._hass.callWS({ type: "config/device_registry/list" }),
       ]);
+      if (!this.isConnected) return;
       this._entities = entities;
       this._devices = devices;
-      this._registryLoaded = true;
+      this._registryLoaded = generation === (this._registryGeneration || 0);
       this._registryRetryAt = 0;
-      this._nvrCard.setConfig(nvrConfig(devices, entities));
+      const config = { ...nvrConfig(devices, entities), diagnostics_stale_seconds: this._config?.diagnostics_stale_seconds };
+      const signature = JSON.stringify(config);
+      if (signature !== this._nvrConfigSignature) {
+        this._nvrConfigSignature = signature;
+        this._nvrCard.setConfig(config);
+      }
       this._nvrCard.hass = this._hass;
       this._renderCameras();
     } catch (error) {
@@ -169,7 +206,7 @@ class GuardianEyeDashboardCard extends HTMLElement {
   }
 
   _ensureRegistrySubscriptions() {
-    if (!this._hass || this._unsubscribers || this._subscriptionsPromise) return;
+    if (!this.isConnected || !this._hass || this._unsubscribers || this._subscriptionsPromise) return;
     this._subscriptionsPromise = this._subscribeToRegistry().finally(() => {
       this._subscriptionsPromise = null;
     });
@@ -198,14 +235,19 @@ class GuardianEyeDashboardCard extends HTMLElement {
   }
 
   _scheduleRegistryReload() {
+    if (!this.isConnected) return;
     clearTimeout(this._registryReloadTimer);
+    this._registryGeneration = (this._registryGeneration || 0) + 1;
     this._registryLoaded = false;
     this._registryRetryAt = 0;
-    this._registryReloadTimer = setTimeout(() => this._ensureRegistryLoaded(), 250);
+    this._registryReloadTimer = setTimeout(() => {
+      this._registryReloadTimer = null;
+      this._ensureRegistryLoaded();
+    }, 250);
   }
 
   _renderCameras() {
-    const cameras = guardianCameraDevices(this._devices);
+    const cameras = guardianCameraDevices(this._devices, this._entities);
     const grid = this.shadowRoot.querySelector(".camera-grid");
     if (!cameras.length) {
       const message = document.createElement("div");
@@ -213,19 +255,79 @@ class GuardianEyeDashboardCard extends HTMLElement {
       message.textContent = this._t("NoCameras", "No Guardian Eye cameras found");
       grid.replaceChildren(message);
       this._cameraCards = [];
+      this._cameraCardsById = new Map();
+      this._updateFleetDiagnostics();
       return;
     }
 
-    this._cameraCards = cameras.map((device) => {
-      const card = document.createElement("guardian-eye-camera-card");
-      card.setConfig(cameraConfig(device, this._entities));
+    const previous = this._cameraCardsById || new Map();
+    const next = new Map();
+    grid.querySelector(".message")?.remove();
+    this._cameraCards = cameras.map((device, index) => {
+      const config = { ...cameraConfig(device, this._entities), diagnostics_stale_seconds: this._config?.diagnostics_stale_seconds };
+      const signature = JSON.stringify(config);
+      const existing = previous.get(device.id);
+      const card = existing?.card || document.createElement("guardian-eye-camera-card");
+      if (signature !== existing?.signature) card.setConfig(config);
       if (this._hass) card.hass = this._hass;
+      // Moving/replacing connected custom elements stops their WebRTC sessions. Reorder visually and
+      // attach only new cards, so registry discovery or a translation refresh cannot interrupt viewers.
+      card.style.order = String(index);
+      if (!existing) grid.append(card);
+      next.set(device.id, { card, signature });
       return card;
     });
-    grid.replaceChildren(...this._cameraCards);
+    for (const [id, { card }] of previous) {
+      if (!next.has(id)) card.remove();
+    }
+    this._cameraCardsById = next;
+    this._updateFleetDiagnostics();
+  }
+
+  _updateFleetDiagnostics() {
+    this._nvrCard.refreshDiagnostics();
+    const health = this.shadowRoot.querySelector(".fleet-health");
+    const cards = this._cameraCards || [];
+    health.hidden = !cards.length;
+    const now = Date.now();
+    const counts = { problem: 0, unknown: 0, off: 0, receiving: 0 };
+    const issues = [];
+    for (const card of cards) {
+      const model = card.refreshDiagnostics(now);
+      counts[model.category]++;
+      if (["problem", "unknown"].includes(model.category)) issues.push({ card, ...model });
+    }
+    const summary = `${this._t("HADiagnostics", "Diagnostics")} · ${this._t("HADiagProblems", "Problems")}: ${counts.problem} · ${this._t("HADiagUnconfirmed", "Unconfirmed")}: ${counts.unknown}`;
+    health.querySelector("summary").textContent = summary;
+    health.querySelector(".fleet-counts").textContent =
+      `${this._t("HADiagReceiving", "Video frames received at last check")}: ${counts.receiving} · ${this._t("HADiagOff", "Capture is off")}: ${counts.off}`;
+    issues.sort((a, b) => (a.category === "problem" ? 0 : 1) - (b.category === "problem" ? 0 : 1));
+    const signature = JSON.stringify(issues.map(({ card, status }) =>
+      [card._config.full_title || card._config.title, card._config.diagnostics, this._t(...DIAGNOSTIC_STATUS[status])]))
+      + this._language + this._t("HADiagNoProblems", "No problems found in the available camera measurements");
+    if (signature === this._fleetDiagnosticsSignature) return;
+    this._fleetDiagnosticsSignature = signature;
+    const nodes = issues.map(({ card, status, category }) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "fleet-issue";
+      button.dataset.category = category;
+      button.textContent = `${card._config.full_title || card._config.title} · ${this._t(...DIAGNOSTIC_STATUS[status])}`;
+      button.addEventListener("click", () => card.openDiagnostics());
+      return button;
+    });
+    if (!nodes.length) {
+      const message = document.createElement("div");
+      message.className = "fleet-empty";
+      message.textContent = this._t("HADiagNoProblems", "No problems found in the available camera measurements");
+      nodes.push(message);
+    }
+    health.querySelector(".fleet-issues").replaceChildren(...nodes);
   }
 
   _showError(error) {
+    // A temporary registry failure must not tear down already working video cards.
+    if (this._cameraCards?.length) return;
     const message = this.shadowRoot.querySelector(".message")
       || document.createElement("div");
     message.className = "message";

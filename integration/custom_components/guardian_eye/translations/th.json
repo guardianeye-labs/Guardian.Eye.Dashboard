@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}ดูวิดีโอสด"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "เชื่อมต่อ Guardian Eye",
+        "description": "ป้อนที่อยู่ Guardian Eye และโทเค็นที่มีสิทธิ์ดูกล้อง โทเค็นจะเก็บไว้บนเซิร์ฟเวอร์ Home Assistant เท่านั้น",
+        "data": {
+          "url": "ที่อยู่ Guardian Eye",
+          "token": "โทเค็น Guardian"
+        }
+      },
+      "reconfigure": {
+        "title": "เชื่อมต่อ Guardian Eye",
+        "description": "ป้อนที่อยู่ Guardian Eye และโทเค็นที่มีสิทธิ์ดูกล้อง โทเค็นจะเก็บไว้บนเซิร์ฟเวอร์ Home Assistant เท่านั้น",
+        "data": {
+          "url": "ที่อยู่ Guardian Eye",
+          "token": "โทเค็น Guardian"
+        }
+      },
+      "reauth_confirm": {
+        "title": "เชื่อมต่อ Guardian Eye",
+        "description": "ป้อนที่อยู่ Guardian Eye และโทเค็นที่มีสิทธิ์ดูกล้อง โทเค็นจะเก็บไว้บนเซิร์ฟเวอร์ Home Assistant เท่านั้น",
+        "data": {
+          "url": "ที่อยู่ Guardian Eye",
+          "token": "โทเค็น Guardian"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "เชื่อมต่อไม่ได้ ตรวจสอบที่อยู่ เครือข่าย และใบรับรอง",
+      "invalid_auth": "โทเค็นไม่ถูกต้อง หมดอายุ หรือไม่มีสิทธิ์ดูกล้อง",
+      "invalid_url": "ป้อนที่อยู่ HTTP(S) และโทเค็นที่ถูกต้อง"
+    },
+    "abort": {
+      "already_configured": "เซิร์ฟเวอร์ Guardian Eye นี้ได้รับการตั้งค่าแล้ว",
+      "reconfigure_successful": "อัปเดตการตั้งค่าแล้ว",
+      "reauth_successful": "ต่ออายุการอนุญาตแล้ว"
+    }
+  }
+}

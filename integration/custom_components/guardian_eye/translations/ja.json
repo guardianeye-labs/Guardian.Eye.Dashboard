@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}ライブ映像を見る"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Guardian Eyeに接続",
+        "description": "Guardian Eyeのアドレスと、カメラの閲覧権限を持つトークンを入力してください。トークンはHome Assistantサーバーにのみ保存されます。",
+        "data": {
+          "url": "Guardian Eyeのアドレス",
+          "token": "Guardianトークン"
+        }
+      },
+      "reconfigure": {
+        "title": "Guardian Eyeに接続",
+        "description": "Guardian Eyeのアドレスと、カメラの閲覧権限を持つトークンを入力してください。トークンはHome Assistantサーバーにのみ保存されます。",
+        "data": {
+          "url": "Guardian Eyeのアドレス",
+          "token": "Guardianトークン"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Guardian Eyeに接続",
+        "description": "Guardian Eyeのアドレスと、カメラの閲覧権限を持つトークンを入力してください。トークンはHome Assistantサーバーにのみ保存されます。",
+        "data": {
+          "url": "Guardian Eyeのアドレス",
+          "token": "Guardianトークン"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "接続できません。アドレス、ネットワーク、証明書を確認してください。",
+      "invalid_auth": "トークンが無効、期限切れ、またはカメラの閲覧権限がありません。",
+      "invalid_url": "有効なHTTP(S)アドレスとトークンを入力してください。"
+    },
+    "abort": {
+      "already_configured": "このGuardian Eyeサーバーは既に設定されています。",
+      "reconfigure_successful": "設定を更新しました。",
+      "reauth_successful": "認証を更新しました。"
+    }
+  }
+}

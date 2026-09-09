@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}লাইভ ভিডিও দেখুন"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Guardian Eye সংযুক্ত করুন",
+        "description": "Guardian Eye-এর ঠিকানা এবং ক্যামেরা দেখার অনুমতিসহ একটি টোকেন লিখুন। টোকেন শুধু Home Assistant সার্ভারে সংরক্ষিত থাকে।",
+        "data": {
+          "url": "Guardian Eye-এর ঠিকানা",
+          "token": "Guardian টোকেন"
+        }
+      },
+      "reconfigure": {
+        "title": "Guardian Eye সংযুক্ত করুন",
+        "description": "Guardian Eye-এর ঠিকানা এবং ক্যামেরা দেখার অনুমতিসহ একটি টোকেন লিখুন। টোকেন শুধু Home Assistant সার্ভারে সংরক্ষিত থাকে।",
+        "data": {
+          "url": "Guardian Eye-এর ঠিকানা",
+          "token": "Guardian টোকেন"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Guardian Eye সংযুক্ত করুন",
+        "description": "Guardian Eye-এর ঠিকানা এবং ক্যামেরা দেখার অনুমতিসহ একটি টোকেন লিখুন। টোকেন শুধু Home Assistant সার্ভারে সংরক্ষিত থাকে।",
+        "data": {
+          "url": "Guardian Eye-এর ঠিকানা",
+          "token": "Guardian টোকেন"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "সংযোগ করা যায়নি। ঠিকানা, নেটওয়ার্ক ও সার্টিফিকেট পরীক্ষা করুন।",
+      "invalid_auth": "টোকেনটি অবৈধ, মেয়াদ শেষ হয়েছে বা ক্যামেরা দেখার অনুমতি নেই।",
+      "invalid_url": "একটি বৈধ HTTP(S) ঠিকানা ও টোকেন লিখুন।"
+    },
+    "abort": {
+      "already_configured": "এই Guardian Eye সার্ভারটি ইতিমধ্যেই কনফিগার করা আছে।",
+      "reconfigure_successful": "কনফিগারেশন আপডেট হয়েছে।",
+      "reauth_successful": "অনুমোদন নবায়ন হয়েছে।"
+    }
+  }
+}

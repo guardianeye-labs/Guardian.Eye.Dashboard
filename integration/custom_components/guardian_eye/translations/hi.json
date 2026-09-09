@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}लाइव वीडियो देखें"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Guardian Eye कनेक्ट करें",
+        "description": "Guardian Eye का पता और कैमरे देखने की अनुमति वाला टोकन दर्ज करें। टोकन केवल Home Assistant सर्वर पर रहता है।",
+        "data": {
+          "url": "Guardian Eye का पता",
+          "token": "Guardian टोकन"
+        }
+      },
+      "reconfigure": {
+        "title": "Guardian Eye कनेक्ट करें",
+        "description": "Guardian Eye का पता और कैमरे देखने की अनुमति वाला टोकन दर्ज करें। टोकन केवल Home Assistant सर्वर पर रहता है।",
+        "data": {
+          "url": "Guardian Eye का पता",
+          "token": "Guardian टोकन"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Guardian Eye कनेक्ट करें",
+        "description": "Guardian Eye का पता और कैमरे देखने की अनुमति वाला टोकन दर्ज करें। टोकन केवल Home Assistant सर्वर पर रहता है।",
+        "data": {
+          "url": "Guardian Eye का पता",
+          "token": "Guardian टोकन"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "कनेक्ट नहीं हो सका। पता, नेटवर्क और प्रमाणपत्र जाँचें।",
+      "invalid_auth": "टोकन अमान्य है, समाप्त हो गया है या कैमरे देखने की अनुमति नहीं देता।",
+      "invalid_url": "एक मान्य HTTP(S) पता और टोकन दर्ज करें।"
+    },
+    "abort": {
+      "already_configured": "यह Guardian Eye सर्वर पहले से कॉन्फ़िगर किया गया है।",
+      "reconfigure_successful": "कॉन्फ़िगरेशन अपडेट हो गया।",
+      "reauth_successful": "अनुमति का नवीनीकरण हो गया।"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Voir la vidéo en direct"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connecter Guardian Eye",
+        "description": "Saisissez l’adresse de Guardian Eye et un jeton autorisant la consultation des caméras. Le jeton reste sur le serveur Home Assistant.",
+        "data": {
+          "url": "Adresse de Guardian Eye",
+          "token": "Jeton Guardian"
+        }
+      },
+      "reconfigure": {
+        "title": "Connecter Guardian Eye",
+        "description": "Saisissez l’adresse de Guardian Eye et un jeton autorisant la consultation des caméras. Le jeton reste sur le serveur Home Assistant.",
+        "data": {
+          "url": "Adresse de Guardian Eye",
+          "token": "Jeton Guardian"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Connecter Guardian Eye",
+        "description": "Saisissez l’adresse de Guardian Eye et un jeton autorisant la consultation des caméras. Le jeton reste sur le serveur Home Assistant.",
+        "data": {
+          "url": "Adresse de Guardian Eye",
+          "token": "Jeton Guardian"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Connexion impossible. Vérifiez l’adresse, le réseau et le certificat.",
+      "invalid_auth": "Le jeton est invalide, expiré ou n’autorise pas la consultation des caméras.",
+      "invalid_url": "Saisissez une adresse HTTP(S) et un jeton valides."
+    },
+    "abort": {
+      "already_configured": "Ce serveur Guardian Eye est déjà configuré.",
+      "reconfigure_successful": "Configuration mise à jour.",
+      "reauth_successful": "Autorisation renouvelée."
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Guardian Eye",
+  "entity": {
+    "camera": {
+      "live_viewer": {
+        "name": "{camera_name}Livevideo ansehen"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Guardian Eye verbinden",
+        "description": "Guardian-Eye-Adresse und Token mit Berechtigung zum Kameraansehen eingeben. Das Token bleibt auf dem Home-Assistant-Server.",
+        "data": {
+          "url": "Guardian-Eye-Adresse",
+          "token": "Guardian-Token"
+        }
+      },
+      "reconfigure": {
+        "title": "Guardian Eye verbinden",
+        "description": "Guardian-Eye-Adresse und Token mit Berechtigung zum Kameraansehen eingeben. Das Token bleibt auf dem Home-Assistant-Server.",
+        "data": {
+          "url": "Guardian-Eye-Adresse",
+          "token": "Guardian-Token"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Guardian Eye verbinden",
+        "description": "Guardian-Eye-Adresse und Token mit Berechtigung zum Kameraansehen eingeben. Das Token bleibt auf dem Home-Assistant-Server.",
+        "data": {
+          "url": "Guardian-Eye-Adresse",
+          "token": "Guardian-Token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen. Adresse, Netzwerk und Zertifikat prüfen.",
+      "invalid_auth": "Das Token ist ungültig, abgelaufen oder erlaubt keinen Kamerazugriff.",
+      "invalid_url": "Eine gültige HTTP(S)-Adresse und ein Token eingeben."
+    },
+    "abort": {
+      "already_configured": "Dieser Guardian-Eye-Server ist bereits eingerichtet.",
+      "reconfigure_successful": "Konfiguration aktualisiert.",
+      "reauth_successful": "Autorisierung erneuert."
+    }
+  }
+}

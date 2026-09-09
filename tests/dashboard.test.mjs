@@ -17,6 +17,7 @@ globalThis.customElements = {
 
 const {
   cameraConfig,
+  guardianCameraDevices,
   nvrConfig,
 } = await import("../dist/guardian-eye-dashboard-config.js");
 const {
@@ -24,7 +25,7 @@ const {
   localizeRecordingModeHass,
 } = await import("../dist/guardian-eye-localization.js");
 const { GuardianEyeDashboardStrategy } =
-  await import("../dist/Guardian.Eye.Dashboard.js");
+  await import("../dist/guardian-eye-dashboard.js");
 
 const camera = {
   id: "camera-device",
@@ -45,29 +46,42 @@ const entity = (deviceId, uniqueId, entityId) => ({
   unique_id: uniqueId,
 });
 const entities = [
-  entity("camera-device", "guardian_camera_stream", "binary_sensor.front_stream"),
-  entity("camera-device", "guardian_camera_motion", "binary_sensor.front_motion"),
-  entity("camera-device", "guardian_camera_ai_detection", "sensor.front_ai"),
-  entity("camera-device", "guardian_camera_recording_state", "binary_sensor.front_recording"),
-  entity("camera-device", "guardian_camera_recording_mode", "select.front_mode"),
-  entity("camera-device", "guardian_camera_power", "switch.front_power"),
-  entity("camera-device", "guardian_camera_snapshot", "image.front_snapshot"),
-  entity("camera-device", "guardian_camera_ptz_zoom_out", "button.front_zoom_out"),
-  entity("camera-device", "guardian_camera_ptz_home", "button.front_home"),
-  entity("camera-device", "guardian_camera_ptz_stop", "button.front_stop"),
-  entity("camera-device", "guardian_camera_ptz_zoom_in", "button.front_zoom_in"),
-  entity("camera-device", "guardian_camera_brightness", "number.front_brightness"),
-  entity("camera-device", "guardian_camera_contrast", "number.front_contrast"),
-  entity("camera-device", "guardian_camera_saturation", "number.front_saturation"),
-  entity("camera-device", "guardian_camera_sharpness", "number.front_sharpness"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_stream", "binary_sensor.front_stream"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_motion", "binary_sensor.front_motion"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_ai_detection", "sensor.front_ai"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_recording_state", "binary_sensor.front_recording"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_recording_mode", "select.front_mode"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_power", "switch.front_power"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_snapshot", "image.front_snapshot"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_ptz_zoom_out", "button.front_zoom_out"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_ptz_home", "button.front_home"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_ptz_stop", "button.front_stop"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_ptz_zoom_in", "button.front_zoom_in"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_brightness", "number.front_brightness"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_contrast", "number.front_contrast"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_saturation", "number.front_saturation"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_sharpness", "number.front_sharpness"),
   entity("nvr-device", "guardian_eye_nvr_status", "sensor.renamed_status"),
   entity("nvr-device", "guardian_eye_nvr_storage", "sensor.renamed_storage"),
 ];
 
+assert.equal(cameraConfig(camera, entities).live, false);
+entities.push({ ...entity("native-camera-device", "entry_11111111-2222-3333-4444-555555555555_live_viewer", "camera.front_live"), platform: "guardian_eye" });
 const config = cameraConfig(camera, entities);
+assert.equal(config.live, true);
+assert.equal(config.live_camera_entity, "camera.front_live");
+assert.equal(config.live_access_entity, undefined);
+assert.equal(config.live_base_url, undefined);
+assert.deepEqual(guardianCameraDevices([camera, { ...camera, id: "native-camera-device" }], entities), [camera]);
+assert.equal(cameraConfig(camera, [...entities, { ...entities.at(-1), entity_id: "camera.duplicate", unique_id: "other_11111111-2222-3333-4444-555555555555_live_viewer" }]).live, false);
 assert.equal(config.title, "Front Door");
 assert.equal(config.image_entity, "image.front_snapshot");
 assert.equal(config.recording_mode_entity, "select.front_mode");
+assert.equal(config.diagnostics.stream, "binary_sensor.front_stream");
+assert.equal(config.diagnostics.power, "switch.front_power");
+assert.equal(config.camera_id, "11111111-2222-3333-4444-555555555555");
+assert.equal(cameraConfig(camera, entities.map(e => e.entity_id === "binary_sensor.front_stream"
+  ? { ...e, disabled_by: "user" } : e)).diagnostics.stream, undefined);
 assert.deepEqual(
   config.entities[0].entities.map((button) => button.entity),
   ["button.front_zoom_out", "button.front_home", "button.front_stop", "button.front_zoom_in"],
@@ -83,6 +97,14 @@ assert.deepEqual(
 );
 assert.ok(config.entities.some((row) => row.entity === "select.front_mode" && row.name === ""));
 assert.equal(config.entities.at(-1).entity, "switch.front_power");
+
+const objectConfig = cameraConfig(camera, [...entities,
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_person", "binary_sensor.renamed_human"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_vehicle", "binary_sensor.renamed_car"),
+  entity("camera-device", "guardian_eye_11111111-2222-3333-4444-555555555555_animal", "binary_sensor.renamed_pet"),
+]);
+assert.deepEqual(objectConfig.object_entities, { person: "binary_sensor.renamed_human", vehicle: "binary_sensor.renamed_car", animal: "binary_sensor.renamed_pet" });
+assert.ok(Object.values(objectConfig.object_entities).every(id => objectConfig.entities.some(row => row.entity === id)));
 
 const russianModes = {
   RecordingOff: "Выкл",
@@ -190,7 +212,7 @@ const release = await import("node:fs/promises")
   ))
   .then(JSON.parse);
 assert.equal(release.schemaVersion, 1);
-assert.equal(release.version, "1.0.10");
+assert.match(release.version, /^\d+\.\d+\.\d+$/);
 assert.equal(
   release.resourceUrl,
   `https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v${release.version}/Guardian.Eye.Dashboard.js`,
