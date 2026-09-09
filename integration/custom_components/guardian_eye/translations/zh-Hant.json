@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "連接 Home Assistant",
+          "manual": "手動連接設定"
+        }
+      },
+      "pair": {
         "title": "連接 Guardian Eye",
-        "description": "請輸入 Guardian Eye 位址和具有攝影機檢視權限的權杖。權杖僅儲存在 Home Assistant 伺服器上。",
+        "description": "在 GE 中開啟 Home Assistant 設定，選擇連接 Home Assistant 並複製連接碼。HA 會將其 MQTT 連接設定傳送給 GE。",
         "data": {
+          "code": "連接碼",
           "url": "Guardian Eye 位址",
           "token": "Guardian 權杖"
         }
       },
-      "reconfigure": {
-        "title": "連接 Guardian Eye",
-        "description": "請輸入 Guardian Eye 位址和具有攝影機檢視權限的權杖。權杖僅儲存在 Home Assistant 伺服器上。",
-        "data": {
-          "url": "Guardian Eye 位址",
-          "token": "Guardian 權杖"
-        }
-      },
-      "reauth_confirm": {
-        "title": "連接 Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "請輸入 Guardian Eye 位址和具有攝影機檢視權限的權杖。權杖僅儲存在 Home Assistant 伺服器上。",
         "data": {
           "url": "Guardian Eye 位址",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "無法連線。請檢查位址、網路和憑證。",
       "invalid_auth": "權杖無效、已過期或沒有攝影機檢視權限。",
-      "invalid_url": "請輸入有效的 HTTP(S) 位址和權杖。"
+      "invalid_url": "請輸入有效的 HTTP(S) 位址和權杖。",
+      "invalid_code": "連接碼無效。請從 GE 複製新碼。",
+      "code_expired": "連接碼已過期。請產生新碼。",
+      "code_used": "連接碼無效。請從 GE 複製新碼。",
+      "setup_busy": "正在準備連接…",
+      "mqtt_required": "請先在 HA 中設定 MQTT 整合，然後重試。",
+      "mqtt_unreachable": "請檢查在 GE 中填寫的 MQTT 伺服器、連接埠和憑證。",
+      "invalid_broker": "請檢查在 GE 中填寫的 MQTT 伺服器、連接埠和憑證。",
+      "mqtt_unsupported": "此 MQTT 連接需要在 GE 中手動設定。",
+      "video_unreachable": "無法連線。請檢查位址、網路和憑證。",
+      "incompatible_version": "請安裝 GE 提供的相容 HA 整合，然後產生新的連接碼。"
     },
     "abort": {
       "already_configured": "此 Guardian Eye 伺服器已設定。",

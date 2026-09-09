@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Home Assistant verbinden",
+          "manual": "Manuelle Verbindungseinstellungen"
+        }
+      },
+      "pair": {
         "title": "Guardian Eye verbinden",
-        "description": "Guardian-Eye-Adresse und Token mit Berechtigung zum Kameraansehen eingeben. Das Token bleibt auf dem Home-Assistant-Server.",
+        "description": "Öffnen Sie in GE die Home-Assistant-Einstellungen, wählen Sie Home Assistant verbinden und kopieren Sie den Code. HA überträgt seine MQTT-Verbindungseinstellungen an GE.",
         "data": {
+          "code": "Verbindungscode",
           "url": "Guardian-Eye-Adresse",
           "token": "Guardian-Token"
         }
       },
-      "reconfigure": {
-        "title": "Guardian Eye verbinden",
-        "description": "Guardian-Eye-Adresse und Token mit Berechtigung zum Kameraansehen eingeben. Das Token bleibt auf dem Home-Assistant-Server.",
-        "data": {
-          "url": "Guardian-Eye-Adresse",
-          "token": "Guardian-Token"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Guardian Eye verbinden",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Guardian-Eye-Adresse und Token mit Berechtigung zum Kameraansehen eingeben. Das Token bleibt auf dem Home-Assistant-Server.",
         "data": {
           "url": "Guardian-Eye-Adresse",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "Verbindung fehlgeschlagen. Adresse, Netzwerk und Zertifikat prüfen.",
       "invalid_auth": "Das Token ist ungültig, abgelaufen oder erlaubt keinen Kamerazugriff.",
-      "invalid_url": "Eine gültige HTTP(S)-Adresse und ein Token eingeben."
+      "invalid_url": "Eine gültige HTTP(S)-Adresse und ein Token eingeben.",
+      "invalid_code": "Ungültiger Verbindungscode. Kopieren Sie einen neuen Code aus GE.",
+      "code_expired": "Der Code ist abgelaufen. Erstellen Sie einen neuen Code.",
+      "code_used": "Ungültiger Verbindungscode. Kopieren Sie einen neuen Code aus GE.",
+      "setup_busy": "Verbindung wird vorbereitet…",
+      "mqtt_required": "Richten Sie zuerst die MQTT-Integration in HA ein.",
+      "mqtt_unreachable": "Prüfen Sie den MQTT-Server, Port und die in GE eingetragenen Zugangsdaten.",
+      "invalid_broker": "Prüfen Sie den MQTT-Server, Port und die in GE eingetragenen Zugangsdaten.",
+      "mqtt_unsupported": "Diese MQTT-Verbindung erfordert eine manuelle Konfiguration in GE.",
+      "video_unreachable": "Verbindung fehlgeschlagen. Adresse, Netzwerk und Zertifikat prüfen.",
+      "incompatible_version": "Installieren Sie die von GE angebotene kompatible HA-Integration und erstellen Sie einen neuen Code."
     },
     "abort": {
       "already_configured": "Dieser Guardian-Eye-Server ist bereits eingerichtet.",

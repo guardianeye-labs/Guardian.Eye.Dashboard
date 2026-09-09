@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Connect Home Assistant",
+          "manual": "Manual connection settings"
+        }
+      },
+      "pair": {
         "title": "Connect Guardian Eye",
-        "description": "Enter the Guardian Eye URL and a token with camera viewing permission. The token stays on the Home Assistant server.",
+        "description": "In Guardian Eye, open the Home Assistant settings, select Connect Home Assistant and copy the code. HA will share its MQTT connection settings with GE.",
         "data": {
+          "code": "Connection code",
           "url": "Guardian Eye URL",
           "token": "Guardian token"
         }
       },
-      "reconfigure": {
-        "title": "Connect Guardian Eye",
-        "description": "Enter the Guardian Eye URL and a token with camera viewing permission. The token stays on the Home Assistant server.",
-        "data": {
-          "url": "Guardian Eye URL",
-          "token": "Guardian token"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Connect Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Enter the Guardian Eye URL and a token with camera viewing permission. The token stays on the Home Assistant server.",
         "data": {
           "url": "Guardian Eye URL",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "Cannot connect. Check the URL, network and certificate.",
       "invalid_auth": "The token is invalid, expired or does not allow camera viewing.",
-      "invalid_url": "Enter a valid HTTP(S) URL and token."
+      "invalid_url": "Enter a valid HTTP(S) URL and token.",
+      "invalid_code": "The connection code is invalid. Copy a new code from GE.",
+      "code_expired": "The code expired. Create a new code to try again.",
+      "code_used": "The connection code is invalid. Copy a new code from GE.",
+      "setup_busy": "Preparing connection…",
+      "mqtt_required": "Set up the MQTT integration in Home Assistant first, then try again.",
+      "mqtt_unreachable": "Check the MQTT server, port and credentials entered in GE.",
+      "invalid_broker": "Check the MQTT server, port and credentials entered in GE.",
+      "mqtt_unsupported": "This MQTT connection uses settings that require manual configuration in GE.",
+      "video_unreachable": "Cannot connect. Check the URL, network and certificate.",
+      "incompatible_version": "Install the compatible HA integration offered in GE, then create a new connection code."
     },
     "abort": {
       "already_configured": "This Guardian Eye server is already configured.",

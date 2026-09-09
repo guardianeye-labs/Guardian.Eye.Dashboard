@@ -5,9 +5,9 @@ import {
   localizeAiDetectionHass,
   localizeRecordingMode,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.22";
-import { WhepSession } from "./guardian-eye-whep.js?v=1.0.22";
-import { cameraDiagnostics, diagnosticsReport, DIAGNOSTIC_STATUS } from "./guardian-eye-diagnostics.js?v=1.0.22";
+} from "./guardian-eye-localization.js?v=1.0.23";
+import { WhepSession } from "./guardian-eye-whep.js?v=1.0.23";
+import { cameraDiagnostics, diagnosticsReport, DIAGNOSTIC_STATUS } from "./guardian-eye-diagnostics.js?v=1.0.23";
 
 const CARD_TAG = "guardian-eye-camera-card";
 
@@ -787,8 +787,8 @@ class GuardianEyeCameraCard extends HTMLElement {
         this._liveFailure = access?.reason ?? "unauthorized";
         return;
       }
-      const url = access.whepUrl;
-      const session = this._createSession();
+      const url = access.viaHomeAssistant ? new URL(access.whepUrl, globalThis.location.origin).href : access.whepUrl;
+      const session = this._createSession(access);
       this._negotiatingSession = session;
       let result;
       try {
@@ -846,7 +846,20 @@ class GuardianEyeCameraCard extends HTMLElement {
    * so without this hook nothing about _startLive could be exercised in a test — which is how the two
    * lifecycle leaks fixed above (unmount and reconfigure while negotiating) reached the branch unnoticed.
    */
-  _createSession() {
+  _createSession(access) {
+    if (access?.viaHomeAssistant) {
+      const origin = globalThis.location.origin;
+      const endpoint = new URL(access.whepUrl, origin);
+      if (endpoint.origin !== origin || !/^\/api\/guardian_eye\/whep\/[0-9a-f]{32}$/.test(endpoint.pathname)
+          || endpoint.search || endpoint.hash || endpoint.username || endpoint.password) throw new Error("Invalid HA video endpoint");
+      return new WhepSession({ fetchImpl: (url, options) => {
+        const target = new URL(url, origin);
+        if (target.href !== endpoint.href) throw new Error("Invalid HA session endpoint");
+        const headers = { ...options.headers };
+        delete headers.Authorization;
+        return this._hass.fetchWithAuth(target.pathname, { ...options, headers });
+      } });
+    }
     return new WhepSession();
   }
 

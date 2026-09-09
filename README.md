@@ -4,22 +4,27 @@
 
 Camera dashboard, authenticated live viewing, MQTT sensors and camera controls.
 
-Start in **Guardian Eye → Settings → Home Assistant → Check for update**. GE selects a compatible
-pair of dashboard and Python component versions. Download that package and follow the
-[installation guide](docs/INSTALL.md) / [инструкцию на русском](docs/INSTALL.ru.md).
+Download the package suggested in **Guardian Eye → Settings → Smart Home → Home Assistant**.
+Install its `custom_components/guardian_eye` folder in HA and restart HA once. Then click
+**Connect Home Assistant** in GE and paste the code into HA's Guardian Eye integration.
+Enter and test the broker connection in GE first. GE and HA must use the same MQTT broker.
+Automatic setup follows the MQTT fields; manual settings remain visible.
 
-A release provides `guardian-eye-ha-setup.zip` with both parts, separate dashboard and integration
-ZIPs, and SHA-256 checksums. MQTT creates cameras and sensors automatically; the Python component
-checks HA permissions and brokers temporary video access. There is no extra language selector.
+The component includes its matching panel, registers it automatically and connects GE's video
+access without manually entering API addresses, credentials or certificates. Existing layouts and
+automations are preserved. The interface uses HA's language.
 
-**Compatibility matters.** Use the version selected by GE rather than blindly installing the newest
-HACS release. Historical `/vVERSION/` links remain immutable. Legacy `/latest/` remains at 1.0.10 for
-older GE clients; current GE selects from the version ranges and contract revisions in `releases.json`.
+Follow the [installation guide](docs/INSTALL.md) / [инструкцию на русском](docs/INSTALL.ru.md).
+The release includes `guardian-eye-ha-setup.zip` and SHA-256 checksums.
 
-For HACS, add `https://github.com/guardianeye-labs/Guardian.Eye.Dashboard` as a **Dashboard** repository.
-Install the GE-recommended dashboard version, then install the component from the matching package.
-HACS installs the modules and locales from `dist`, with `Guardian.Eye.Dashboard.js` as the entry point.
+Use the version selected by GE. The compatibility catalog accounts for both GE versions and the
+HA contract implemented by each build. Historical `/vVERSION/` links remain immutable; legacy
+`/latest/` remains at 1.0.10 for older clients.
 
-Sources are exported together from the Guardian Eye repository by `integrations/HomeAssistant/prepare-release.py`.
+For existing dashboard-only HACS installations, this repository remains a **Dashboard** repository.
+HACS does not install its Python component or choose a version based on GE. Code-based connection
+uses the full package; separate HACS installation is unnecessary.
+
+Sources are exported together by `integrations/HomeAssistant/prepare-release.py` in the GE repository.
 `source.json` records the source commit. Run `npm test` and `python3 tools/package.py --output /tmp/ha-packages`
-to validate and package an export. Release CI rejects an export made from uncommitted source changes.
+to validate an export. Release CI rejects exports made from uncommitted source changes.

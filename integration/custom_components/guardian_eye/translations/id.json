@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Hubungkan Home Assistant",
+          "manual": "Pengaturan koneksi manual"
+        }
+      },
+      "pair": {
         "title": "Hubungkan Guardian Eye",
-        "description": "Masukkan alamat Guardian Eye dan token dengan izin melihat kamera. Token tetap tersimpan di server Home Assistant.",
+        "description": "Di GE, buka pengaturan Home Assistant, pilih Hubungkan Home Assistant, lalu salin kode. HA akan mengirim pengaturan koneksi MQTT ke GE.",
         "data": {
+          "code": "Kode koneksi",
           "url": "Alamat Guardian Eye",
           "token": "Token Guardian"
         }
       },
-      "reconfigure": {
-        "title": "Hubungkan Guardian Eye",
-        "description": "Masukkan alamat Guardian Eye dan token dengan izin melihat kamera. Token tetap tersimpan di server Home Assistant.",
-        "data": {
-          "url": "Alamat Guardian Eye",
-          "token": "Token Guardian"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Hubungkan Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Masukkan alamat Guardian Eye dan token dengan izin melihat kamera. Token tetap tersimpan di server Home Assistant.",
         "data": {
           "url": "Alamat Guardian Eye",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "Tidak dapat terhubung. Periksa alamat, jaringan, dan sertifikat.",
       "invalid_auth": "Token tidak valid, kedaluwarsa, atau tidak mengizinkan tampilan kamera.",
-      "invalid_url": "Masukkan alamat HTTP(S) dan token yang valid."
+      "invalid_url": "Masukkan alamat HTTP(S) dan token yang valid.",
+      "invalid_code": "Kode tidak valid. Salin kode baru dari GE.",
+      "code_expired": "Kode kedaluwarsa. Buat kode baru.",
+      "code_used": "Kode tidak valid. Salin kode baru dari GE.",
+      "setup_busy": "Menyiapkan koneksi…",
+      "mqtt_required": "Siapkan integrasi MQTT di HA terlebih dahulu.",
+      "mqtt_unreachable": "Periksa server MQTT, port, dan kredensial yang diisi di GE.",
+      "invalid_broker": "Periksa server MQTT, port, dan kredensial yang diisi di GE.",
+      "mqtt_unsupported": "Koneksi MQTT ini memerlukan pengaturan manual di GE.",
+      "video_unreachable": "Tidak dapat terhubung. Periksa alamat, jaringan, dan sertifikat.",
+      "incompatible_version": "Pasang integrasi HA kompatibel yang ditawarkan GE, lalu buat kode baru."
     },
     "abort": {
       "already_configured": "Server Guardian Eye ini sudah dikonfigurasi.",

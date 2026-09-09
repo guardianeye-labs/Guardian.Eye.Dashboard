@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Home Assistant に接続",
+          "manual": "手動接続設定"
+        }
+      },
+      "pair": {
         "title": "Guardian Eyeに接続",
-        "description": "Guardian Eyeのアドレスと、カメラの閲覧権限を持つトークンを入力してください。トークンはHome Assistantサーバーにのみ保存されます。",
+        "description": "GE の Home Assistant 設定を開き、Home Assistant に接続を選択してコードをコピーしてください。HA は MQTT 接続設定を GE に送信します。",
         "data": {
+          "code": "接続コード",
           "url": "Guardian Eyeのアドレス",
           "token": "Guardianトークン"
         }
       },
-      "reconfigure": {
-        "title": "Guardian Eyeに接続",
-        "description": "Guardian Eyeのアドレスと、カメラの閲覧権限を持つトークンを入力してください。トークンはHome Assistantサーバーにのみ保存されます。",
-        "data": {
-          "url": "Guardian Eyeのアドレス",
-          "token": "Guardianトークン"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Guardian Eyeに接続",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Guardian Eyeのアドレスと、カメラの閲覧権限を持つトークンを入力してください。トークンはHome Assistantサーバーにのみ保存されます。",
         "data": {
           "url": "Guardian Eyeのアドレス",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "接続できません。アドレス、ネットワーク、証明書を確認してください。",
       "invalid_auth": "トークンが無効、期限切れ、またはカメラの閲覧権限がありません。",
-      "invalid_url": "有効なHTTP(S)アドレスとトークンを入力してください。"
+      "invalid_url": "有効なHTTP(S)アドレスとトークンを入力してください。",
+      "invalid_code": "接続コードが無効です。GE から新しいコードをコピーしてください。",
+      "code_expired": "コードの期限が切れました。新しいコードを作成してください。",
+      "code_used": "接続コードが無効です。GE から新しいコードをコピーしてください。",
+      "setup_busy": "接続を準備中…",
+      "mqtt_required": "先に HA で MQTT 統合を設定してください。",
+      "mqtt_unreachable": "GE に入力した MQTT サーバー、ポート、認証情報を確認してください。",
+      "invalid_broker": "GE に入力した MQTT サーバー、ポート、認証情報を確認してください。",
+      "mqtt_unsupported": "この MQTT 接続には GE での手動設定が必要です。",
+      "video_unreachable": "接続できません。アドレス、ネットワーク、証明書を確認してください。",
+      "incompatible_version": "GE が提供する互換性のある HA 統合をインストールし、新しい接続コードを作成してください。"
     },
     "abort": {
       "already_configured": "このGuardian Eyeサーバーは既に設定されています。",

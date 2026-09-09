@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Home Assistant 연결",
+          "manual": "수동 연결 설정"
+        }
+      },
+      "pair": {
         "title": "Guardian Eye 연결",
-        "description": "Guardian Eye 주소와 카메라 보기 권한이 있는 토큰을 입력하세요. 토큰은 Home Assistant 서버에만 저장됩니다.",
+        "description": "GE에서 Home Assistant 설정을 열고 Home Assistant 연결을 선택한 다음 코드를 복사하세요. HA가 MQTT 연결 설정을 GE에 전송합니다.",
         "data": {
+          "code": "연결 코드",
           "url": "Guardian Eye 주소",
           "token": "Guardian 토큰"
         }
       },
-      "reconfigure": {
-        "title": "Guardian Eye 연결",
-        "description": "Guardian Eye 주소와 카메라 보기 권한이 있는 토큰을 입력하세요. 토큰은 Home Assistant 서버에만 저장됩니다.",
-        "data": {
-          "url": "Guardian Eye 주소",
-          "token": "Guardian 토큰"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Guardian Eye 연결",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Guardian Eye 주소와 카메라 보기 권한이 있는 토큰을 입력하세요. 토큰은 Home Assistant 서버에만 저장됩니다.",
         "data": {
           "url": "Guardian Eye 주소",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "연결할 수 없습니다. 주소, 네트워크 및 인증서를 확인하세요.",
       "invalid_auth": "토큰이 유효하지 않거나 만료되었거나 카메라 보기 권한이 없습니다.",
-      "invalid_url": "유효한 HTTP(S) 주소와 토큰을 입력하세요."
+      "invalid_url": "유효한 HTTP(S) 주소와 토큰을 입력하세요.",
+      "invalid_code": "잘못된 연결 코드입니다. GE에서 새 코드를 복사하세요.",
+      "code_expired": "코드가 만료되었습니다. 새 코드를 만드세요.",
+      "code_used": "잘못된 연결 코드입니다. GE에서 새 코드를 복사하세요.",
+      "setup_busy": "연결 준비 중…",
+      "mqtt_required": "먼저 HA에서 MQTT 통합을 설정하세요.",
+      "mqtt_unreachable": "GE에 입력한 MQTT 서버, 포트 및 인증 정보를 확인하세요.",
+      "invalid_broker": "GE에 입력한 MQTT 서버, 포트 및 인증 정보를 확인하세요.",
+      "mqtt_unsupported": "이 MQTT 연결은 GE에서 수동 설정이 필요합니다.",
+      "video_unreachable": "연결할 수 없습니다. 주소, 네트워크 및 인증서를 확인하세요.",
+      "incompatible_version": "GE에서 제공하는 호환 HA 통합을 설치하고 새 연결 코드를 만드세요."
     },
     "abort": {
       "already_configured": "이 Guardian Eye 서버는 이미 설정되어 있습니다.",

@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "ربط Home Assistant",
+          "manual": "إعدادات الاتصال اليدوية"
+        }
+      },
+      "pair": {
         "title": "ربط Guardian Eye",
-        "description": "أدخل عنوان Guardian Eye ورمز وصول يسمح بمشاهدة الكاميرات. يُحفظ الرمز على خادم Home Assistant فقط.",
+        "description": "في GE، افتح إعدادات Home Assistant واختر ربط Home Assistant وانسخ الرمز. سيرسل HA إعدادات اتصال MQTT إلى GE.",
         "data": {
+          "code": "رمز الاتصال",
           "url": "عنوان Guardian Eye",
           "token": "رمز وصول Guardian"
         }
       },
-      "reconfigure": {
-        "title": "ربط Guardian Eye",
-        "description": "أدخل عنوان Guardian Eye ورمز وصول يسمح بمشاهدة الكاميرات. يُحفظ الرمز على خادم Home Assistant فقط.",
-        "data": {
-          "url": "عنوان Guardian Eye",
-          "token": "رمز وصول Guardian"
-        }
-      },
-      "reauth_confirm": {
-        "title": "ربط Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "أدخل عنوان Guardian Eye ورمز وصول يسمح بمشاهدة الكاميرات. يُحفظ الرمز على خادم Home Assistant فقط.",
         "data": {
           "url": "عنوان Guardian Eye",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "تعذر الاتصال. تحقق من العنوان والشبكة والشهادة.",
       "invalid_auth": "الرمز غير صالح أو منتهي الصلاحية أو لا يسمح بمشاهدة الكاميرات.",
-      "invalid_url": "أدخل عنوان HTTP(S) ورمز وصول صالحين."
+      "invalid_url": "أدخل عنوان HTTP(S) ورمز وصول صالحين.",
+      "invalid_code": "رمز الاتصال غير صالح. انسخ رمزًا جديدًا من GE.",
+      "code_expired": "انتهت صلاحية الرمز. أنشئ رمزًا جديدًا.",
+      "code_used": "رمز الاتصال غير صالح. انسخ رمزًا جديدًا من GE.",
+      "setup_busy": "جارٍ تجهيز الاتصال…",
+      "mqtt_required": "أعدّ تكامل MQTT في HA أولًا.",
+      "mqtt_unreachable": "تحقق من خادم MQTT والمنفذ وبيانات الدخول المدخلة في GE.",
+      "invalid_broker": "تحقق من خادم MQTT والمنفذ وبيانات الدخول المدخلة في GE.",
+      "mqtt_unsupported": "يتطلب اتصال MQTT هذا إعدادًا يدويًا في GE.",
+      "video_unreachable": "تعذر الاتصال. تحقق من العنوان والشبكة والشهادة.",
+      "incompatible_version": "ثبّت تكامل HA المتوافق الذي يقدّمه GE، ثم أنشئ رمز اتصال جديدًا."
     },
     "abort": {
       "already_configured": "خادم Guardian Eye هذا مُعدّ بالفعل.",

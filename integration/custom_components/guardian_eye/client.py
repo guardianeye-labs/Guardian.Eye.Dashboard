@@ -63,10 +63,11 @@ def normalize_url(value: str) -> str:
 class GuardianClient:
     """The token is kept in backend memory/config entry only."""
 
-    def __init__(self, session: aiohttp.ClientSession, url: str, token: str) -> None:
+    def __init__(self, session: aiohttp.ClientSession, url: str, token: str, certificate_sha256: str | None = None) -> None:
         self.session = session
         self.url = normalize_url(url)
         self._token = token.strip()
+        self.fingerprint = aiohttp.Fingerprint(bytes.fromhex(certificate_sha256)) if certificate_sha256 else None
 
     async def request(self, method: str, path: str, **kwargs) -> dict:
         try:
@@ -76,6 +77,7 @@ class GuardianClient:
                 headers={"Authorization": f"Bearer {self._token}"},
                 timeout=aiohttp.ClientTimeout(total=15),
                 allow_redirects=False,
+                ssl=self.fingerprint,
                 **kwargs,
             ) as response:
                 if response.status in (401, 403):

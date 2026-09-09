@@ -17,6 +17,8 @@ from .const import DOMAIN, CONF_URL, CONF_TOKEN
 from .devices import migrate_camera_devices
 from .entity_names import EntityNames, websocket_frontend_language
 from .http import GuardianOpenView
+from .frontend import async_setup_panel
+from .whep import GuardianWhepView
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -33,7 +35,7 @@ class GuardianCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=30),
         )
         self.client = GuardianClient(
-            async_get_clientsession(hass), entry.data[CONF_URL], entry.data[CONF_TOKEN]
+            async_get_clientsession(hass), entry.data[CONF_URL], entry.data[CONF_TOKEN], entry.data.get("certificate_sha256")
         )
         self.entities = {}
         self.open_slots = asyncio.Semaphore(8)
@@ -50,7 +52,10 @@ class GuardianCoordinator(DataUpdateCoordinator):
 
 
 async def async_setup(hass, config):
-    hass.http.register_view(GuardianOpenView())
+    await async_setup_panel(hass)
+    whep = GuardianWhepView()
+    hass.http.register_view(whep)
+    hass.http.register_view(GuardianOpenView(whep))
     websocket_api.async_register_command(hass, websocket_frontend_language)
     return True
 

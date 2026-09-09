@@ -3,6 +3,25 @@
   "releases": [
     {
       "schemaVersion": 1,
+      "version": "1.0.23",
+      "resourceUrl": "https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v1.0.23/Guardian.Eye.Dashboard.js",
+      "latestResourceUrl": "https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/latest/Guardian.Eye.Dashboard.js",
+      "repositoryUrl": "https://github.com/guardianeye-labs/Guardian.Eye.Dashboard",
+      "integrationVersion": "1.0.4",
+      "integrationDownloadUrl": "https://github.com/guardianeye-labs/Guardian.Eye.Dashboard/releases/download/v1.0.23/guardian-eye-integration.zip",
+      "setupDownloadUrl": "https://github.com/guardianeye-labs/Guardian.Eye.Dashboard/releases/download/v1.0.23/guardian-eye-ha-setup.zip",
+      "installationUrl": "https://github.com/guardianeye-labs/Guardian.Eye.Dashboard/blob/v1.0.23/docs/INSTALL.md",
+      "homeAssistantMinVersion": "2026.8.3",
+      "guardianEye": {
+        "minVersion": "3.4.0",
+        "maxVersionExclusive": "3.5.0",
+        "contractVersion": 3,
+        "allowPrerelease": true,
+        "allowDevelopmentBuild": true
+      }
+    },
+    {
+      "schemaVersion": 1,
       "version": "1.0.22",
       "resourceUrl": "https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/v1.0.22/Guardian.Eye.Dashboard.js",
       "latestResourceUrl": "https://guardianeye-labs.github.io/Guardian.Eye.Dashboard/latest/Guardian.Eye.Dashboard.js",

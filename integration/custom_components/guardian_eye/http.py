@@ -10,6 +10,7 @@ import time
 from aiohttp import web
 from homeassistant.auth.permissions.const import POLICY_READ
 from homeassistant.components.http import HomeAssistantView
+from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import entity_registry as er
 
 from .client import GuardianAuthError, GuardianError
@@ -25,8 +26,9 @@ class GuardianOpenView(HomeAssistantView):
     name = "api:guardian_eye:live:open"
     requires_auth = True
 
-    def __init__(self):
+    def __init__(self, whep=None):
         self._requests = {}
+        self._whep = whep
 
     def _admit(self, user_id):
         now = time.monotonic()
@@ -81,6 +83,8 @@ class GuardianOpenView(HomeAssistantView):
         ):
             return response({"reason": "not_found"}, 404)
         entry = hass.config_entries.async_get_entry(entity.config_entry_id)
+        if entry is None or entry.state != ConfigEntryState.LOADED or entry.disabled_by:
+            return response({"reason": "not_found"}, 404)
         coordinator = getattr(entry, "runtime_data", None) if entry else None
         camera_id = coordinator.entities.get(entity_id) if coordinator else None
         if not camera_id or camera_id not in coordinator.data:
@@ -112,4 +116,8 @@ class GuardianOpenView(HomeAssistantView):
             or coordinator.entities.get(entity_id) != camera_id
         ):
             return response({"reason": "not_found"}, 404)
+        if entry.data.get("proxy_video") and self._whep:
+            descriptor = self._whep.issue(user, entity_id, entry, coordinator, camera_id, descriptor)
+            if descriptor is None:
+                return response({"reason": "rate_limited"}, 429)
         return response(descriptor)

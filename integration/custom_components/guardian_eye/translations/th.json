@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "เชื่อมต่อ Home Assistant",
+          "manual": "ตั้งค่าการเชื่อมต่อด้วยตนเอง"
+        }
+      },
+      "pair": {
         "title": "เชื่อมต่อ Guardian Eye",
-        "description": "ป้อนที่อยู่ Guardian Eye และโทเค็นที่มีสิทธิ์ดูกล้อง โทเค็นจะเก็บไว้บนเซิร์ฟเวอร์ Home Assistant เท่านั้น",
+        "description": "ใน GE เปิดการตั้งค่า Home Assistant เลือกเชื่อมต่อ Home Assistant แล้วคัดลอกรหัส HA จะส่งการตั้งค่าการเชื่อมต่อ MQTT ให้ GE",
         "data": {
+          "code": "รหัสเชื่อมต่อ",
           "url": "ที่อยู่ Guardian Eye",
           "token": "โทเค็น Guardian"
         }
       },
-      "reconfigure": {
-        "title": "เชื่อมต่อ Guardian Eye",
-        "description": "ป้อนที่อยู่ Guardian Eye และโทเค็นที่มีสิทธิ์ดูกล้อง โทเค็นจะเก็บไว้บนเซิร์ฟเวอร์ Home Assistant เท่านั้น",
-        "data": {
-          "url": "ที่อยู่ Guardian Eye",
-          "token": "โทเค็น Guardian"
-        }
-      },
-      "reauth_confirm": {
-        "title": "เชื่อมต่อ Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "ป้อนที่อยู่ Guardian Eye และโทเค็นที่มีสิทธิ์ดูกล้อง โทเค็นจะเก็บไว้บนเซิร์ฟเวอร์ Home Assistant เท่านั้น",
         "data": {
           "url": "ที่อยู่ Guardian Eye",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "เชื่อมต่อไม่ได้ ตรวจสอบที่อยู่ เครือข่าย และใบรับรอง",
       "invalid_auth": "โทเค็นไม่ถูกต้อง หมดอายุ หรือไม่มีสิทธิ์ดูกล้อง",
-      "invalid_url": "ป้อนที่อยู่ HTTP(S) และโทเค็นที่ถูกต้อง"
+      "invalid_url": "ป้อนที่อยู่ HTTP(S) และโทเค็นที่ถูกต้อง",
+      "invalid_code": "รหัสเชื่อมต่อไม่ถูกต้อง โปรดคัดลอกรหัสใหม่จาก GE",
+      "code_expired": "รหัสหมดอายุแล้ว โปรดสร้างรหัสใหม่",
+      "code_used": "รหัสเชื่อมต่อไม่ถูกต้อง โปรดคัดลอกรหัสใหม่จาก GE",
+      "setup_busy": "กำลังเตรียมการเชื่อมต่อ…",
+      "mqtt_required": "โปรดตั้งค่าการผสานรวม MQTT ใน HA ก่อน",
+      "mqtt_unreachable": "ตรวจสอบเซิร์ฟเวอร์ MQTT พอร์ต และข้อมูลเข้าสู่ระบบที่กรอกใน GE",
+      "invalid_broker": "ตรวจสอบเซิร์ฟเวอร์ MQTT พอร์ต และข้อมูลเข้าสู่ระบบที่กรอกใน GE",
+      "mqtt_unsupported": "การเชื่อมต่อ MQTT นี้ต้องตั้งค่าด้วยตนเองใน GE",
+      "video_unreachable": "เชื่อมต่อไม่ได้ ตรวจสอบที่อยู่ เครือข่าย และใบรับรอง",
+      "incompatible_version": "ติดตั้งการผสานรวม HA ที่เข้ากันได้ซึ่ง GE แนะนำ แล้วสร้างรหัสเชื่อมต่อใหม่"
     },
     "abort": {
       "already_configured": "เซิร์ฟเวอร์ Guardian Eye นี้ได้รับการตั้งค่าแล้ว",

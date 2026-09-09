@@ -18,6 +18,12 @@ def package(root, output):
     assert release in catalog['releases'], 'Current release is absent or different in compatibility catalog'
     assert release['integrationVersion'] == manifest['version'], 'Component and dashboard versions disagree'
     assert json.loads((root / 'package.json').read_text())['version'] == release['version']
+    assert json.loads((component / 'frontend/guardian-eye-dashboard-release.json').read_text()) == release, \
+        'Bundled panel does not match the component release'
+    for source in (root / 'dist').iterdir():
+        if source.is_file():
+            assert (component / 'frontend' / source.name).read_bytes() == source.read_bytes(), \
+                f'Bundled panel file is missing or stale: {source.name}'
     for f in (root / 'dist').glob('*.js'):
         revisions = re.findall(r'\?v=(\d+\.\d+\.\d+)', f.read_text())
         assert all(v == release['version'] for v in revisions), f'Stale module revision in {f.name}'
@@ -48,8 +54,7 @@ def package(root, output):
     assets = [
         write('guardian-eye-dashboard.zip', files(root / 'dist', 'guardian-eye-dashboard/') + guides),
         write('guardian-eye-integration.zip', files(component, 'custom_components/guardian_eye/') + guides),
-        write('guardian-eye-ha-setup.zip', files(root / 'dist', 'www/community/guardian-eye-dashboard/')
-              + files(component, 'custom_components/guardian_eye/') + guides),
+        write('guardian-eye-ha-setup.zip', files(component, 'custom_components/guardian_eye/') + guides),
     ]
     (output / 'SHA256SUMS.txt').write_text(''.join(
         f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n' for p in assets))

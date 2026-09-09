@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Home Assistant সংযুক্ত করুন",
+          "manual": "ম্যানুয়াল সংযোগ সেটিংস"
+        }
+      },
+      "pair": {
         "title": "Guardian Eye সংযুক্ত করুন",
-        "description": "Guardian Eye-এর ঠিকানা এবং ক্যামেরা দেখার অনুমতিসহ একটি টোকেন লিখুন। টোকেন শুধু Home Assistant সার্ভারে সংরক্ষিত থাকে।",
+        "description": "GE-তে Home Assistant সেটিংস খুলুন, Home Assistant সংযুক্ত করুন বেছে কোড কপি করুন। HA তার MQTT সংযোগের সেটিংস GE-তে পাঠাবে।",
         "data": {
+          "code": "সংযোগ কোড",
           "url": "Guardian Eye-এর ঠিকানা",
           "token": "Guardian টোকেন"
         }
       },
-      "reconfigure": {
-        "title": "Guardian Eye সংযুক্ত করুন",
-        "description": "Guardian Eye-এর ঠিকানা এবং ক্যামেরা দেখার অনুমতিসহ একটি টোকেন লিখুন। টোকেন শুধু Home Assistant সার্ভারে সংরক্ষিত থাকে।",
-        "data": {
-          "url": "Guardian Eye-এর ঠিকানা",
-          "token": "Guardian টোকেন"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Guardian Eye সংযুক্ত করুন",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Guardian Eye-এর ঠিকানা এবং ক্যামেরা দেখার অনুমতিসহ একটি টোকেন লিখুন। টোকেন শুধু Home Assistant সার্ভারে সংরক্ষিত থাকে।",
         "data": {
           "url": "Guardian Eye-এর ঠিকানা",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "সংযোগ করা যায়নি। ঠিকানা, নেটওয়ার্ক ও সার্টিফিকেট পরীক্ষা করুন।",
       "invalid_auth": "টোকেনটি অবৈধ, মেয়াদ শেষ হয়েছে বা ক্যামেরা দেখার অনুমতি নেই।",
-      "invalid_url": "একটি বৈধ HTTP(S) ঠিকানা ও টোকেন লিখুন।"
+      "invalid_url": "একটি বৈধ HTTP(S) ঠিকানা ও টোকেন লিখুন।",
+      "invalid_code": "সংযোগ কোড সঠিক নয়। GE থেকে নতুন কোড কপি করুন।",
+      "code_expired": "কোডের মেয়াদ শেষ। নতুন কোড তৈরি করুন।",
+      "code_used": "সংযোগ কোড সঠিক নয়। GE থেকে নতুন কোড কপি করুন।",
+      "setup_busy": "সংযোগ প্রস্তুত হচ্ছে…",
+      "mqtt_required": "প্রথমে HA-তে MQTT ইন্টিগ্রেশন সেট আপ করুন।",
+      "mqtt_unreachable": "GE-তে দেওয়া MQTT সার্ভার, পোর্ট ও লগইন তথ্য যাচাই করুন।",
+      "invalid_broker": "GE-তে দেওয়া MQTT সার্ভার, পোর্ট ও লগইন তথ্য যাচাই করুন।",
+      "mqtt_unsupported": "এই MQTT সংযোগের জন্য GE-তে ম্যানুয়াল সেটিংস প্রয়োজন।",
+      "video_unreachable": "সংযোগ করা যায়নি। ঠিকানা, নেটওয়ার্ক ও সার্টিফিকেট পরীক্ষা করুন।",
+      "incompatible_version": "GE-এর প্রস্তাবিত সামঞ্জস্যপূর্ণ HA ইন্টিগ্রেশন ইনস্টল করে নতুন কোড তৈরি করুন।"
     },
     "abort": {
       "already_configured": "এই Guardian Eye সার্ভারটি ইতিমধ্যেই কনফিগার করা আছে।",

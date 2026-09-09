@@ -2,8 +2,8 @@ import {
   homeAssistantLanguage,
   loadGuardianEyeTranslations,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.22";
-import { nvrDiagnostics } from "./guardian-eye-diagnostics.js?v=1.0.22";
+} from "./guardian-eye-localization.js?v=1.0.23";
+import { nvrDiagnostics } from "./guardian-eye-diagnostics.js?v=1.0.23";
 
 const CARD_TAG = "guardian-eye-nvr-card";
 const DEFAULT_ENTITIES = {

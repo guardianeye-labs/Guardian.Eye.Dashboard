@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "连接 Home Assistant",
+          "manual": "手动连接设置"
+        }
+      },
+      "pair": {
         "title": "连接 Guardian Eye",
-        "description": "请输入 Guardian Eye 地址和具有摄像头查看权限的令牌。令牌仅保存在 Home Assistant 服务器上。",
+        "description": "在 GE 中打开 Home Assistant 设置，选择连接 Home Assistant 并复制连接码。HA 将把其 MQTT 连接设置发送给 GE。",
         "data": {
+          "code": "连接码",
           "url": "Guardian Eye 地址",
           "token": "Guardian 令牌"
         }
       },
-      "reconfigure": {
-        "title": "连接 Guardian Eye",
-        "description": "请输入 Guardian Eye 地址和具有摄像头查看权限的令牌。令牌仅保存在 Home Assistant 服务器上。",
-        "data": {
-          "url": "Guardian Eye 地址",
-          "token": "Guardian 令牌"
-        }
-      },
-      "reauth_confirm": {
-        "title": "连接 Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "请输入 Guardian Eye 地址和具有摄像头查看权限的令牌。令牌仅保存在 Home Assistant 服务器上。",
         "data": {
           "url": "Guardian Eye 地址",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "无法连接。请检查地址、网络和证书。",
       "invalid_auth": "令牌无效、已过期或没有摄像头查看权限。",
-      "invalid_url": "请输入有效的 HTTP(S) 地址和令牌。"
+      "invalid_url": "请输入有效的 HTTP(S) 地址和令牌。",
+      "invalid_code": "连接码无效。请从 GE 复制新码。",
+      "code_expired": "连接码已过期。请生成新码。",
+      "code_used": "连接码无效。请从 GE 复制新码。",
+      "setup_busy": "正在准备连接…",
+      "mqtt_required": "请先在 HA 中设置 MQTT 集成，然后重试。",
+      "mqtt_unreachable": "请检查在 GE 中填写的 MQTT 服务器、端口和凭据。",
+      "invalid_broker": "请检查在 GE 中填写的 MQTT 服务器、端口和凭据。",
+      "mqtt_unsupported": "此 MQTT 连接需要在 GE 中手动配置。",
+      "video_unreachable": "无法连接。请检查地址、网络和证书。",
+      "incompatible_version": "请安装 GE 提供的兼容 HA 集成，然后生成新的连接码。"
     },
     "abort": {
       "already_configured": "此 Guardian Eye 服务器已配置。",

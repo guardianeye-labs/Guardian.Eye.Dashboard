@@ -311,3 +311,24 @@ test("Cancel during negotiation closes the pending peer and prevents late playba
   assert.equal(element._liveButton.hidden, false);
   assert.equal(element._liveStop.hidden, true);
 });
+
+test("HA signalling sends HA auth only to its fixed local endpoint and preserves SDP headers", async () => {
+  const previous = globalThis.location;
+  globalThis.location = { origin: "https://ha.example", protocol: "https:" };
+  try {
+    const element = card();
+    const calls = [];
+    element.hass = hass({ calls });
+    const path = "/api/guardian_eye/whep/" + "a".repeat(32);
+    const session = element._createSession({ viaHomeAssistant: true, whepUrl: path });
+    await session._fetch("https://ha.example" + path, { method: "POST", headers: {
+      Authorization: "HomeAssistant", "Content-Type": "application/sdp"
+    }, body: "v=0" });
+    assert.equal(calls[0].url, path);
+    assert.equal(calls[0].options.headers["Content-Type"], "application/sdp");
+    assert.equal(calls[0].options.headers.Authorization, undefined);
+    assert.throws(() => session._fetch("https://other.example" + path, {}));
+    assert.throws(() => element._createSession({ viaHomeAssistant: true, whepUrl: "https://other.example" + path }));
+    assert.throws(() => element._createSession({ viaHomeAssistant: true, whepUrl: path + "?token=x" }));
+  } finally { globalThis.location = previous; }
+});

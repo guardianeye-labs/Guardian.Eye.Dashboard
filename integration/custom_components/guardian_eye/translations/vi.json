@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Kết nối Home Assistant",
+          "manual": "Cài đặt kết nối thủ công"
+        }
+      },
+      "pair": {
         "title": "Kết nối Guardian Eye",
-        "description": "Nhập địa chỉ Guardian Eye và mã truy cập có quyền xem camera. Mã truy cập chỉ được lưu trên máy chủ Home Assistant.",
+        "description": "Trong GE, mở cài đặt Home Assistant, chọn Kết nối Home Assistant rồi sao chép mã. HA sẽ gửi cài đặt kết nối MQTT cho GE.",
         "data": {
+          "code": "Mã kết nối",
           "url": "Địa chỉ Guardian Eye",
           "token": "Mã truy cập Guardian"
         }
       },
-      "reconfigure": {
-        "title": "Kết nối Guardian Eye",
-        "description": "Nhập địa chỉ Guardian Eye và mã truy cập có quyền xem camera. Mã truy cập chỉ được lưu trên máy chủ Home Assistant.",
-        "data": {
-          "url": "Địa chỉ Guardian Eye",
-          "token": "Mã truy cập Guardian"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Kết nối Guardian Eye",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Nhập địa chỉ Guardian Eye và mã truy cập có quyền xem camera. Mã truy cập chỉ được lưu trên máy chủ Home Assistant.",
         "data": {
           "url": "Địa chỉ Guardian Eye",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "Không thể kết nối. Hãy kiểm tra địa chỉ, mạng và chứng chỉ.",
       "invalid_auth": "Mã truy cập không hợp lệ, đã hết hạn hoặc không cho phép xem camera.",
-      "invalid_url": "Nhập địa chỉ HTTP(S) và mã truy cập hợp lệ."
+      "invalid_url": "Nhập địa chỉ HTTP(S) và mã truy cập hợp lệ.",
+      "invalid_code": "Mã không hợp lệ. Sao chép mã mới từ GE.",
+      "code_expired": "Mã đã hết hạn. Hãy tạo mã mới.",
+      "code_used": "Mã không hợp lệ. Sao chép mã mới từ GE.",
+      "setup_busy": "Đang chuẩn bị kết nối…",
+      "mqtt_required": "Hãy thiết lập tích hợp MQTT trong HA trước.",
+      "mqtt_unreachable": "Kiểm tra máy chủ MQTT, cổng và thông tin đăng nhập đã nhập trong GE.",
+      "invalid_broker": "Kiểm tra máy chủ MQTT, cổng và thông tin đăng nhập đã nhập trong GE.",
+      "mqtt_unsupported": "Kết nối MQTT này cần được cấu hình thủ công trong GE.",
+      "video_unreachable": "Không thể kết nối. Hãy kiểm tra địa chỉ, mạng và chứng chỉ.",
+      "incompatible_version": "Cài tích hợp HA tương thích do GE cung cấp rồi tạo mã mới."
     },
     "abort": {
       "already_configured": "Máy chủ Guardian Eye này đã được cấu hình.",

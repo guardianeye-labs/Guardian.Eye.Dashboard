@@ -10,23 +10,23 @@
   "config": {
     "step": {
       "user": {
+        "title": "Guardian Eye",
+        "menu_options": {
+          "pair": "Home Assistant bağla",
+          "manual": "Manuel bağlantı ayarları"
+        }
+      },
+      "pair": {
         "title": "Guardian Eye bağlantısı",
-        "description": "Guardian Eye adresini ve kameraları görüntüleme izni olan bir belirteci girin. Belirteç Home Assistant sunucusunda kalır.",
+        "description": "GE’de Home Assistant ayarlarını açın, Home Assistant bağla seçeneğini seçip kodu kopyalayın. HA, MQTT bağlantı ayarlarını GE’ye gönderecek.",
         "data": {
+          "code": "Bağlantı kodu",
           "url": "Guardian Eye adresi",
           "token": "Guardian belirteci"
         }
       },
-      "reconfigure": {
-        "title": "Guardian Eye bağlantısı",
-        "description": "Guardian Eye adresini ve kameraları görüntüleme izni olan bir belirteci girin. Belirteç Home Assistant sunucusunda kalır.",
-        "data": {
-          "url": "Guardian Eye adresi",
-          "token": "Guardian belirteci"
-        }
-      },
-      "reauth_confirm": {
-        "title": "Guardian Eye bağlantısı",
+      "manual": {
+        "title": "Guardian Eye",
         "description": "Guardian Eye adresini ve kameraları görüntüleme izni olan bir belirteci girin. Belirteç Home Assistant sunucusunda kalır.",
         "data": {
           "url": "Guardian Eye adresi",
@@ -37,7 +37,17 @@
     "error": {
       "cannot_connect": "Bağlantı kurulamadı. Adresi, ağı ve sertifikayı kontrol edin.",
       "invalid_auth": "Belirteç geçersiz, süresi dolmuş veya kamera görüntüleme izni yok.",
-      "invalid_url": "Geçerli bir HTTP(S) adresi ve belirteç girin."
+      "invalid_url": "Geçerli bir HTTP(S) adresi ve belirteç girin.",
+      "invalid_code": "Geçersiz bağlantı kodu. GE’den yeni bir kod kopyalayın.",
+      "code_expired": "Kodun süresi doldu. Yeni kod oluşturun.",
+      "code_used": "Geçersiz bağlantı kodu. GE’den yeni bir kod kopyalayın.",
+      "setup_busy": "Bağlantı hazırlanıyor…",
+      "mqtt_required": "Önce HA’da MQTT entegrasyonunu ayarlayın.",
+      "mqtt_unreachable": "GE’ye girilen MQTT sunucusunu, bağlantı noktasını ve kimlik bilgilerini kontrol edin.",
+      "invalid_broker": "GE’ye girilen MQTT sunucusunu, bağlantı noktasını ve kimlik bilgilerini kontrol edin.",
+      "mqtt_unsupported": "Bu MQTT bağlantısı GE’de manuel yapılandırma gerektirir.",
+      "video_unreachable": "Bağlantı kurulamadı. Adresi, ağı ve sertifikayı kontrol edin.",
+      "incompatible_version": "GE’nin sunduğu uyumlu HA entegrasyonunu kurup yeni kod oluşturun."
     },
     "abort": {
       "already_configured": "Bu Guardian Eye sunucusu zaten yapılandırılmış.",

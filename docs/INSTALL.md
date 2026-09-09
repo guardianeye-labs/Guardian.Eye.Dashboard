@@ -1,109 +1,77 @@
-# Install Guardian Eye in Home Assistant
+# Connect Guardian Eye to Home Assistant
 
 [Русский](INSTALL.ru.md)
 
-Use the **compatible package shown by your installed Guardian Eye** under Settings → Home Assistant.
-It selects a dashboard and HA component together. Do not substitute the newest dashboard from another
-release. The package's `guardian-eye-package.json` records the exact versions and compatibility range.
+## Install once
 
-## 1. Connect MQTT
+Home Assistant needs a configured **MQTT integration** and an MQTT broker reachable from GE.
+If they are missing, install a broker (such as Mosquitto) and add MQTT to HA first.
 
-Install a MQTT broker and configure Home Assistant's MQTT integration to use it. In GE, enable
-Home Assistant, enter the same broker details, test the connection and enable Discovery. Save the
-settings. Cameras, motion/object sensors, recording mode and control entities appear automatically.
-MQTT's integration in HA is a client; it does not install a broker.
+1. In GE, open **Settings → Smart Home → Home Assistant** and download the suggested package.
+2. Copy `custom_components/guardian_eye` from `guardian-eye-ha-setup.zip` into HA's configuration
+   directory, usually `/config/custom_components/guardian_eye`. On upgrade, replace this folder
+   entirely, keeping the rest of your HA configuration.
+3. Restart Home Assistant.
 
-## 2. Install the compatible package
+The component includes its matching dashboard. No separate `www` files, JavaScript resource
+registration or YAML is needed.
 
-1. Download `guardian-eye-ha-setup.zip` using **Download package** in GE.
-2. Extract it into Home Assistant's **configuration directory**. On HA OS this is `/config`; with
-   Container use the host directory mounted at `/config`. Merge the supplied directories:
-   - `custom_components/guardian_eye/`
-   - `www/community/guardian-eye-dashboard/`
-3. Restart **Home Assistant** to load the Python component.
+## Connect using a code
 
-The archive does not contain `configuration.yaml`, user credentials or `.storage`, and does not
-replace your HA configuration. Separate `guardian-eye-dashboard.zip` and `guardian-eye-integration.zip`
-are available in the same release for administrators who deploy these directories separately.
+Enter the MQTT server, port and credentials in GE and test the connection. GE and HA must use
+the same broker. Automatic setup appears below the MQTT settings.
 
-## 3. Enable authenticated video in GE
+1. In GE, click **Connect Home Assistant**, copy the code and leave the dialog open.
+2. In HA, open **Settings → Devices & services → Add integration → Guardian Eye**, choose the code connection, paste the code
+   and finish adding the integration.
 
-MQTT alone provides sensors and controls. Live video also requires GE's video router and access API.
-The listener is disabled by default. Merge this into GE's existing configuration, preserving other
-settings and replacing **both example addresses**. HA and the viewing browser must reach GE.
+The code lasts five minutes. If GE offers several network addresses, choose the network that HA
+can reach. Devices and sensors appear automatically, with **Guardian Eye** in HA's sidebar.
+Refresh the browser if it was already open.
 
-```json
-{
-  "GuardianEye": {
-    "LiveStreaming": {
-      "Enabled": true,
-      "Access": {
-        "Enabled": true,
-        "PublicBaseUrl": "http://192.168.1.10:8890",
-        "AllowedNetworks": ["192.168.1.20/32", "127.0.0.0/8"]
-      },
-      "Router": {
-        "AllowLanAccess": true,
-        "BindAddress": "0.0.0.0",
-        "WebRtcPort": 8889,
-        "IceUdpPort": 8189
-      },
-      "Security": {
-        "AllowedViewerOrigins": ["http://192.168.1.20:8123"],
-        "AdvertisedViewerHosts": ["192.168.1.10"]
-      }
-    }
-  }
-}
-```
+GE verifies the MQTT settings already entered in GE, enables video access and creates a separate
+viewing credential. Existing broker settings, credentials, TLS and discovery prefix are preserved.
+The permanent video credential stays on the HA backend; camera access is checked against the HA
+user’s permissions. The interface uses HA’s language setting.
 
-This example is for a trusted LAN with HTTP HA. Permit HA → GE TCP 8890 and browser → GE TCP 8889 /
-UDP 8189. Docker's observed source address can be the host address. Use the actual address, not
-`localhost` or `0.0.0.0`, for public URLs. Restart GE after changing listener configuration.
+## Use
 
-For HTTPS HA, configure HTTPS in GE too: use an HTTPS `PublicBaseUrl` and set `Security.Tls.Enabled`,
-`CertificatePath` and `PrivateKeyPath` to a certificate/key trusted by HA and the browser. A reverse
-proxy, NAT and remote viewing require their own explicit routing; the package does not configure them.
+Enable the camera's **Capture** switch and start viewing. **Stop viewing** closes video in the
+current browser; capture and recording continue. Person, vehicle and animal sensors require AI
+detection. Motion has its own sensor. Assign actions in HA's normal automation editor. No example
+automations are installed automatically.
 
-Create a dedicated key in GE's existing access-key settings. `guardian.media.read` is sufficient;
-the current key dialog's full-access key also works. In HA open **Settings → Devices & services →
-Add integration → Guardian Eye**, enter the GE API URL and key (without the `Bearer ` prefix).
-The permanent key stays in HA; the player gets temporary camera access after a HA permission check.
+## Update or reconnect
 
-## 4. Create the dashboard
+GE selects a package compatible with its installed build. Download it, replace only
+`custom_components/guardian_eye`, restart HA and refresh the browser. The dashboard updates with
+the component. Existing layouts, identities and automations are preserved.
 
-1. In HA open **Settings → Dashboards → Resources** (enable Advanced mode in your HA profile if needed).
-2. Add a **JavaScript module** using the **resource URL supplied by GE**. It is pinned to a compatible
-   release. For a fully local installation, use
-   `/local/community/guardian-eye-dashboard/Guardian.Eye.Dashboard.js?v=VERSION`, replacing `VERSION`
-   with the dashboard version shown in GE. Choose one resource URL; do not register both.
-3. Refresh the browser, then **Settings → Dashboards → Add dashboard → Guardian Eye**.
-4. Open the panel. Camera cards are created from MQTT, without hand-written entity IDs or YAML.
+To replace GE access, create a new code and select **Reconfigure** on the existing Guardian Eye
+integration. Do not delete the entry. When migrating from manual configuration, do this once to
+establish protected access. The previous dashboard resource is updated automatically.
 
-Enable **Capture** on a camera and select Play. Stop viewing closes that browser's video session;
-capture and recording continue. Person/Vehicle/Animal sensors require AI mode; Motion uses its
-separate sensor. Configure actions in HA's standard automation editor. No example blueprint is installed.
-The panel follows the existing HA language; shared default entity names use the owner's HA language.
+Different GE versions may need different packages. Use the package GE suggests; keep your installed
+version if no compatible release is available. `guardian-eye-package.json` in the archive records
+the versions. Historical releases and their URLs remain available.
 
-## Updating and different GE versions
+## Troubleshooting
 
-In GE, check for a compatible package again after updating GE. Install **both parts from that package**,
-restart HA for Python changes, replace the existing dashboard resource URL and refresh the browser.
-Keep the same integration entry, dashboard, camera IDs and automations. Do not create a second resource.
-If GE reports no compatible package, keep the installed version and check the release notes.
+- **MQTT is missing:** configure MQTT in HA. Installing Guardian Eye does not install a broker.
+- **Broker unreachable:** make its port reachable from the GE computer. Mosquitto on HA OS needs
+  its broker port exposed on the HA host's address.
+- **Invalid or expired code:** create a new code in GE. Check both machines' clocks.
+- **Incompatible version:** install the package suggested by your GE build.
+- **No video:** check camera capture and network access to GE.
 
-The catalog selects by the inclusive minimum / exclusive maximum GE release version **and** the HA
-contract implemented by that GE build. Prerelease and unversioned development builds require explicit
-permission in the catalog. An unknown contract or an unsupported GE version does not fall back to latest.
-Historical `/vVERSION/` URLs remain available. The legacy `/latest/` entry stays at 1.0.10 for older GE
-clients that cannot negotiate compatibility. New GE clients use `releases.json`.
+GE and the HA server must be able to reach each other. HA contacts the temporary HTTPS port in
+the code, then GE's API (TCP 8890 by default). Browser signalling travels through HA; WebRTC media
+travels directly from GE (UDP 8189 by default). Viewing from another network requires a route to
+GE, such as a VPN. The package does not configure NAT or a VPN.
 
-HACS can install the dashboard from the public Guardian.Eye.Dashboard repository (Dashboard category).
-Select the version recommended by GE; HACS does not select by GE version and does not install the Python
-component from this dashboard repository. Install that component from the matching package above.
+TLS and CA settings come from GE’s existing MQTT configuration. Manual settings remain visible.
+HA also offers manual entry of the GE address and access key.
 
-## Verification
-
-Confirm the versions shown in GE, HA's Guardian Eye configuration entry and `guardian-eye-package.json`.
-Check MQTT connectivity, one live video, Stop/Play, and a camera control. For missing video, check
-capture, GE/API reachability, browser video ports and the Guardian token before changing camera settings.
+The Guardian.Eye.Dashboard HACS repository is in the Dashboard category and installs only the
+panel. For code-based connection, use the complete package from GE; an additional HACS panel
+installation is unnecessary.
