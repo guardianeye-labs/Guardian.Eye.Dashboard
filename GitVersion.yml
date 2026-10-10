@@ -1,15 +1,129 @@
-# Номер выпуска поднимает владелец руками: меняет next-version, коммитит в main и запускает вручную workflow
-# «Release HA packages». CI вписывает версию во все файлы, собирает, коммитит, ставит тег и публикует.
-# Сам GitVersion номер не растит; если тег этой версии уже есть, workflow ничего не выпускает.
+# Конфигурация взята из основного репозитория Guardian.Eye (gitversion.yml) без изменений правил веток.
+# Номер выпуска поднимает владелец руками через next-version, коммитит в main и запускает вручную
+# workflow «Release HA packages»; если тег этой версии уже есть, workflow ничего не выпускает.
 next-version: 1.0.24
-mode: ContinuousDeployment
-increment: None
+
+
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatch
 tag-prefix: '[vV]?'
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
+tag-pre-release-weight: 60000
+commit-date-format: yyyy-MM-dd
+update-build-number: true
 semantic-version-format: Strict
+
+mode: ContinuousDelivery
+# Числовую версию меняет только владелец через next-version. Ветки могут добавлять
+# prerelease-метку, но не имеют права самостоятельно менять MajorMinorPatch.
+increment: None
 
 branches:
   main:
-    regex: ^main$
+    mode: ContinuousDeployment
     label: ''
     increment: None
+    prevent-increment:
+      of-merged-branch: true
+    regex: ^master$|^main$
     is-main-branch: true
+
+  develop:
+    mode: ContinuousDelivery
+    label: alpha
+    # Номер не растёт сам: версию поднимает владелец через next-version. Иначе сборка с dev
+    # или с ветки фичи даёт версию, которой нет в карточке магазина, и билд к ней не привязать.
+    increment: None
+    regex: ^dev(elop)?(ment)?$
+    source-branches:
+      - main
+    tracks-release-branches: true
+
+  release:
+    mode: ManualDeployment
+    label: beta
+    increment: Minor
+    regex: ^releases?[/-]
+    source-branches:
+      - main
+      - develop
+    is-release-branch: true
+    pre-release-weight: 30000
+
+  # The integration branch is named exactly "feature". The normal feature rule below only
+  # matches feature/* and features/*; without this explicit rule the integration branch falls
+  # through to unknown/ManualDeployment and every stage artifact is frozen at feature.1.
+  feature-root:
+    mode: ContinuousDelivery
+    label: feature
+    increment: None
+    regex: ^feature$
+    source-branches:
+      - develop
+      - main
+    pre-release-weight: 30000
+
+  feature:
+    # Номер после метки должен расти: имя файла собирается из semVer, а метаданные сборки в него
+    # не входят — при неподвижном номере вторая сборка ветки молча затирала первую на сервере
+    # загрузок, и тестировщик не мог отличить её от вчерашней. Рост даёт именно режим:
+    # с ManualDeployment номер прибит к единице независимо от increment, а ContinuousDeployment
+    # убирает метку целиком и версия сталкивается с релизной.
+    mode: ContinuousDelivery
+    label: '{BranchName}'
+    increment: None
+    # Именованная группа обязательна: без неё метка {BranchName} остаётся текстом,
+    # попадает в -p:Version и ломает восстановление пакетов фигурными скобками.
+    regex: ^features?[/-](?<BranchName>.+)
+    source-branches:
+      - develop
+      - main
+    pre-release-weight: 30000
+
+  fix:
+    mode: ManualDeployment
+    label: '{BranchName}'
+    increment: None
+    regex: ^fix(?:es)?[/-](?<BranchName>.+)
+    source-branches:
+      - develop
+      - main
+    pre-release-weight: 30000
+
+  hotfix:
+    mode: ManualDeployment
+    label: beta
+    increment: Patch
+    regex: ^hotfix(es)?[/-]
+    source-branches:
+      - main
+    is-release-branch: true
+    pre-release-weight: 30000
+
+  pull-request:
+    mode: ContinuousDelivery
+    label: pr
+    increment: Inherit
+    regex: ^(pull|pull\-requests|pr)[/-]
+    source-branches:
+      - develop
+      - main
+      - release
+      - feature
+      - fix
+      - hotfix
+    pre-release-weight: 30000
+
+  # Без этого встроенный fallback GitVersion использует increment: Inherit.
+  # Новое имя ветки тогда может незаметно превратить 3.4.x в 3.5.0.
+  unknown:
+    mode: ManualDeployment
+    label: '{BranchName}'
+    increment: None
+    regex: (?<BranchName>.+)
+
+ignore:
+  sha: []
