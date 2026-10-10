@@ -52,10 +52,11 @@ def check_compatibility(data: dict, release: dict) -> None:
     if compatible and data["development"]:
         compatible = rule.get("allowDevelopmentBuild") is True
     elif compatible:
+        # A release names the oldest Guardian Eye it works with; newer builds on the same contract keep
+        # working. Breaking changes bump contractVersion, so maxVersionExclusive is not an upper limit.
         version = tuple(int(x) for x in match.groups()[:3])
         lower = tuple(int(x) for x in rule["minVersion"].split("."))
-        upper = tuple(int(x) for x in rule["maxVersionExclusive"].split("."))
-        compatible = lower <= version < upper and (match[4] is None or rule.get("allowPrerelease") is True)
+        compatible = lower <= version and (match[4] is None or rule.get("allowPrerelease") is True)
     if not compatible:
         raise PairingError("incompatible_version")
 
