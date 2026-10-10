@@ -1,0 +1,15 @@
+# Номер выпуска поднимает владелец руками: меняет next-version, коммитит в main и запускает вручную workflow
+# «Release HA packages». CI вписывает версию во все файлы, собирает, коммитит, ставит тег и публикует.
+# Сам GitVersion номер не растит; если тег этой версии уже есть, workflow ничего не выпускает.
+next-version: 1.0.24
+mode: ContinuousDeployment
+increment: None
+tag-prefix: '[vV]?'
+semantic-version-format: Strict
+
+branches:
+  main:
+    regex: ^main$
+    label: ''
+    increment: None
+    is-main-branch: true
