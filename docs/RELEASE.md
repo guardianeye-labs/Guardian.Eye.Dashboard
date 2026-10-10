@@ -1,3 +1,18 @@
+Guardian Eye HA 1.0.24 includes dashboard 1.0.24 and component 1.0.5 for HA 2026.8.3 or newer.
+
+- Pairing accepts every Guardian Eye build on HA contract 3 from 3.4.0 on. Component 1.0.4 treated
+  the compatibility rule as a closed range and rejected Guardian Eye 4.x with "install the compatible
+  integration"; a release now names only the oldest Guardian Eye it supports, and contractVersion marks
+  breaking changes.
+- The catalog entry keeps maxVersionExclusive (100.0.0) so Guardian Eye builds that still read the upper
+  bound are offered this package.
+- Dashboard and setup flow are unchanged from 1.0.23.
+
+Upgrade by replacing `custom_components/guardian_eye` with the folder from the GE-selected package,
+restarting HA and creating a new connection code in GE.
+
+---
+
 Guardian Eye HA 1.0.23 includes dashboard 1.0.23 and component 1.0.4 for HA 2026.8.3 or newer.
 
 - Connect through one expiring code generated in GE. GE checks the MQTT connection

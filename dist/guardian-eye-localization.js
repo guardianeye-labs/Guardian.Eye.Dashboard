@@ -122,7 +122,7 @@ function localeCandidates(language) {
 async function fetchLocale(locale) {
   try {
     const url = new URL(
-      `guardian-eye-locales/Strings.${locale}.json?v=1.0.23`,
+      `guardian-eye-locales/Strings.${locale}.json?v=1.0.24`,
       resourceRoot,
     );
     const response = await fetch(url, { cache: "force-cache" });

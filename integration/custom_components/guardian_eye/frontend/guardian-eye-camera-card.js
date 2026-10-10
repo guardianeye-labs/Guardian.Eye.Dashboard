@@ -5,9 +5,9 @@ import {
   localizeAiDetectionHass,
   localizeRecordingMode,
   translate,
-} from "./guardian-eye-localization.js?v=1.0.23";
-import { WhepSession } from "./guardian-eye-whep.js?v=1.0.23";
-import { cameraDiagnostics, diagnosticsReport, DIAGNOSTIC_STATUS } from "./guardian-eye-diagnostics.js?v=1.0.23";
+} from "./guardian-eye-localization.js?v=1.0.24";
+import { WhepSession } from "./guardian-eye-whep.js?v=1.0.24";
+import { cameraDiagnostics, diagnosticsReport, DIAGNOSTIC_STATUS } from "./guardian-eye-diagnostics.js?v=1.0.24";
 
 const CARD_TAG = "guardian-eye-camera-card";
 
