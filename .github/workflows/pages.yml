@@ -2,7 +2,7 @@ name: Release HA packages
 # Выпуск по версии из GitVersion. Владелец поднимает next-version в GitVersion.yml, коммитит в main и
 # запускает этот workflow; здесь версия вписывается во все файлы, сборка проверяется, результат коммитится в main с тегом,
 # создаётся GitHub-релиз с архивами и обновляется каталог на GitHub Pages. Если тег этой версии уже
-# есть, выпускать нечего, и workflow останавливается после расчёта версии.
+# есть, версия пересобирается: прежние релиз и тег удаляются и создаются заново из текущего main.
 # Только вручную: Actions → «Release HA packages» → Run workflow. Автоматических запусков нет.
 on:
   workflow_dispatch:
@@ -16,8 +16,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      release: ${{ steps.check.outputs.release }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,35 +26,33 @@ jobs:
       - id: gitversion
         uses: gittools/actions/gitversion/execute@v3
       - id: check
-        name: Skip when this version is already released
-        run: |
-          VERSION='${{ steps.gitversion.outputs.majorMinorPatch }}'
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
-            echo "v$VERSION is already released; bump next-version in GitVersion.yml to release."
-            echo "release=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "release=true" >> "$GITHUB_OUTPUT"
-          fi
-      - if: steps.check.outputs.release == 'true'
-        uses: actions/setup-python@v5
+        name: Resolve the release version
+        run: echo "version=${{ steps.gitversion.outputs.majorMinorPatch }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-      - if: steps.check.outputs.release == 'true'
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - if: steps.check.outputs.release == 'true'
-        name: Check exported source
+      - name: Check exported source
         run: python3 -c "import json;assert json.load(open('source.json'))['dirty'] is False, 'Export committed source before publishing'"
-      - if: steps.check.outputs.release == 'true'
-        run: python3 tools/stamp-version.py '${{ steps.check.outputs.version }}'
-      - if: steps.check.outputs.release == 'true'
-        run: npm test
-      - if: steps.check.outputs.release == 'true'
-        run: python3 tools/package.py --output packages
-      - if: steps.check.outputs.release == 'true'
-        name: Commit the stamped version and tag it
+      - run: python3 tools/stamp-version.py '${{ steps.check.outputs.version }}'
+      - run: npm test
+      - run: python3 tools/package.py --output packages
+      # После успешной сборки: упавшая проверка не должна оставить версию без релиза.
+      - name: Drop the previous release and tag of this version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION='${{ steps.check.outputs.version }}'
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            gh release delete "v$VERSION" --yes --cleanup-tag
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null; then
+            git push origin --delete "v$VERSION"
+          fi
+          git tag -d "v$VERSION" 2>/dev/null || true
+      - name: Commit the stamped version and tag it
         run: |
           VERSION='${{ steps.check.outputs.version }}'
           git config user.name 'github-actions[bot]'
@@ -66,25 +62,20 @@ jobs:
           git tag "v$VERSION"
           git push origin HEAD:main
           git push origin "v$VERSION"
-      - if: steps.check.outputs.release == 'true'
-        name: Publish release assets
+      - name: Publish release assets
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           VERSION='${{ steps.check.outputs.version }}'
           gh release create "v$VERSION" packages/*.zip packages/SHA256SUMS.txt \
             --title "Guardian Eye HA $VERSION" --notes-file docs/RELEASE.md --verify-tag
-      - if: steps.check.outputs.release == 'true'
-        uses: actions/configure-pages@v5
-      - if: steps.check.outputs.release == 'true'
-        run: python3 tools/build-site.py --output site
-      - if: steps.check.outputs.release == 'true'
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v5
+      - run: python3 tools/build-site.py --output site
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: site
   deploy:
     needs: build
-    if: needs.build.outputs.release == 'true'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
