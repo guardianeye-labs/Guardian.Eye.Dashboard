@@ -2,10 +2,21 @@
 
 [Русский](INSTALL.ru.md)
 
-## Install once
+## First: a broker and MQTT in Home Assistant
 
-Home Assistant needs a configured **MQTT integration** and an MQTT broker reachable from GE.
-If they are missing, install a broker (such as Mosquitto) and add MQTT to HA first.
+The component does not install an MQTT broker or add the MQTT integration to HA. Do this first:
+
+1. **Broker.** If you have none, install one. On Home Assistant OS the simplest is
+   **Mosquitto broker** from the store (**Settings → Apps**, called Add-ons in older versions).
+   Home Assistant running in Docker has no such section: run a separate Mosquitto, for example
+   alongside it in Docker.
+2. **MQTT integration in HA.** **Settings → Devices & services → Add integration → MQTT**.
+   Enter the broker as the HA server reaches it: the Mosquitto add-on is usually discovered
+   automatically, a broker on the same Docker network by its container name (for example `mqtt`),
+   a broker on another device by its IP address. Add the port and credentials if required.
+3. Check that the **MQTT** integration works without a connection error.
+
+## Install once
 
 1. In GE, open **Settings → Smart Home → Home Assistant** and download the suggested package.
 2. Copy `custom_components/guardian_eye` from `guardian-eye-ha-setup.zip` into HA's configuration
